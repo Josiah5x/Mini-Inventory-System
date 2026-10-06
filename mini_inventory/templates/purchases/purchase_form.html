@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if is_edit %}
+        Edit Purchase
+    {% else %}
+        New Purchase
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h3 class="fw-bold mb-1">
+
+            {% if is_edit %}
+                Edit Purchase
+            {% else %}
+                New Purchase
+            {% endif %}
+
+        </h3>
+
+        <p class="text-muted mb-0">
+            {% if is_edit %}
+                Update this draft purchase.
+            {% else %}
+                Create a new supplier purchase.
+            {% endif %}
+        </p>
+
+    </div>
+
+    <a href="{% if purchase %}
+                {% url 'purchases:purchase_detail' purchase.pk %}
+            {% else %}
+                {% url 'purchases:purchase_list' %}
+            {% endif %}"
+       class="btn btn-light">
+
+        <i class="bi bi-arrow-left me-1"></i>
+        Back
+
+    </a>
+
+</div>
+
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+
+        <div class="alert alert-danger">
+
+            {{ form.non_field_errors }}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- Purchase Information -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-header bg-white py-3">
+
+            <h5 class="mb-0 fw-semibold">
+
+                <i class="bi bi-receipt me-2 text-primary"></i>
+
+                Purchase Information
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Invoice Number
+                    </label>
+
+                    {{ form.invoice_number }}
+
+                    {% for error in form.invoice_number.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Supplier
+                    </label>
+
+                    {{ form.supplier }}
+
+                    {% for error in form.supplier.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Purchase Date
+                    </label>
+
+                    {{ form.purchase_date }}
+
+                    {% for error in form.purchase_date.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Discount
+                    </label>
+
+                    {{ form.discount }}
+
+                </div>
+
+
+                <div class="col-md-8">
+
+                    <label class="form-label">
+                        Note
+                    </label>
+
+                    {{ form.note }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Items -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-header bg-white py-3">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0 fw-semibold">
+
+                    <i class="bi bi-box-seam me-2 text-primary"></i>
+
+                    Purchase Items
+
+                </h5>
+
+                <span class="text-muted small">
+                    Add the products received from the supplier.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body p-0">
+
+            {{ formset.management_form }}
+
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th class="ps-4">
+                                Product
+                            </th>
+
+                            <th style="width: 180px;">
+                                Quantity
+                            </th>
+
+                            <th style="width: 200px;">
+                                Unit Cost
+                            </th>
+
+                            <th style="width: 80px;">
+                                Remove
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="purchase-items">
+
+                        {% for item_form in formset %}
+
+                        <tr class="purchase-item-row">
+
+                            {{ item_form.id }}
+
+                            <td class="ps-4">
+
+                                {{ item_form.product }}
+
+                                {% for error in item_form.product.errors %}
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ item_form.quantity }}
+
+                                {% for error in item_form.quantity.errors %}
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ item_form.unit_cost }}
+
+                                {% for error in item_form.unit_cost.errors %}
+                                    <div class="text-danger small">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if item_form.instance.pk %}
+
+                                    <div class="form-check">
+
+                                        {{ item_form.DELETE }}
+
+                                    </div>
+
+                                {% else %}
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger remove-row">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-footer bg-white">
+
+            <button
+                type="button"
+                id="add-item"
+                class="btn btn-outline-primary">
+
+                <i class="bi bi-plus-lg me-1"></i>
+                Add Item
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Actions -->
+
+    <div class="d-flex justify-content-end gap-2">
+
+        <a href="{% if purchase %}
+                    {% url 'purchases:purchase_detail' purchase.pk %}
+                {% else %}
+                    {% url 'purchases:purchase_list' %}
+                {% endif %}"
+           class="btn btn-light">
+
+            Cancel
+
+        </a>
+
+
+        <button type="submit"
+                class="btn btn-primary px-4">
+
+            <i class="bi bi-check-lg me-1"></i>
+
+            {% if is_edit %}
+                Update Purchase
+            {% else %}
+                Save Purchase
+            {% endif %}
+
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const container = document.getElementById("purchase-items");
+    const addButton = document.getElementById("add-item");
+
+    const totalForms =
+        document.getElementById("id_items-TOTAL_FORMS");
+
+    if (!container || !addButton || !totalForms) {
+        return;
+    }
+
+
+    addButton.addEventListener("click", function () {
+
+        const formCount = parseInt(
+            totalForms.value
+        );
+
+        const rows =
+            container.querySelectorAll(
+                ".purchase-item-row"
+            );
+
+        const lastRow =
+            rows[rows.length - 1];
+
+        if (!lastRow) {
+            return;
+        }
+
+        const newRow =
+            lastRow.cloneNode(true);
+
+        newRow.innerHTML =
+            newRow.innerHTML.replace(
+                /items-(\d+)-/g,
+                `items-${formCount}-`
+            );
+
+        newRow
+            .querySelectorAll("input")
+            .forEach(function(input) {
+
+                if (
+                    input.type !== "hidden" &&
+                    input.type !== "checkbox"
+                ) {
+                    input.value = "";
+                }
+
+                if (input.type === "checkbox") {
+                    input.checked = false;
+                }
+
+            });
+
+        newRow
+            .querySelectorAll("select")
+            .forEach(function(select) {
+                select.selectedIndex = 0;
+            });
+
+        const deleteCell =
+            newRow.querySelector("td:last-child");
+
+        if (deleteCell) {
+
+            deleteCell.innerHTML = `
+                <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger remove-row">
+
+                    <i class="bi bi-trash"></i>
+
+                </button>
+            `;
+
+        }
+
+        container.appendChild(newRow);
+
+        totalForms.value =
+            formCount + 1;
+
+    });
+
+
+    container.addEventListener(
+        "click",
+        function(event) {
+
+            const button =
+                event.target.closest(
+                    ".remove-row"
+                );
+
+            if (!button) {
+                return;
+            }
+
+            const row =
+                button.closest(
+                    ".purchase-item-row"
+                );
+
+            if (row) {
+                row.remove();
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}

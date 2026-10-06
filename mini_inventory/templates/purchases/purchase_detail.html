@@ -1,0 +1,526 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Purchase {{ purchase.invoice_number }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+
+    <div>
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+
+            <a href="{% url 'purchases:purchase_list' %}"
+               class="text-muted text-decoration-none">
+
+                <i class="bi bi-arrow-left"></i>
+
+            </a>
+
+            <span class="text-muted">
+                Purchases
+            </span>
+
+        </div>
+
+
+        <h3 class="fw-bold mb-1">
+
+            {{ purchase.invoice_number }}
+
+        </h3>
+
+
+        {% if purchase.status == "RECEIVED" %}
+
+            <span class="badge bg-success-subtle text-success">
+
+                <i class="bi bi-check-circle me-1"></i>
+
+                Received
+
+            </span>
+
+        {% elif purchase.status == "CANCELLED" %}
+
+            <span class="badge bg-danger-subtle text-danger">
+
+                Cancelled
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-warning-subtle text-warning-emphasis">
+
+                <i class="bi bi-clock me-1"></i>
+
+                Draft
+
+            </span>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="d-flex gap-2">
+
+        {% if purchase.status == "DRAFT" %}
+
+            <a href="{% url 'purchases:purchase_update' purchase.pk %}"
+               class="btn btn-light">
+
+                <i class="bi bi-pencil me-1"></i>
+                Edit
+
+            </a>
+
+
+            <form method="post"
+                  action="{% url 'purchases:purchase_receive' purchase.pk %}"
+                  onsubmit="return confirm('Receive this purchase and update stock?');">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="bi bi-box-arrow-in-down me-1"></i>
+
+                    Receive Purchase
+
+                </button>
+
+            </form>
+
+        {% endif %}
+
+
+        <button
+            type="button"
+            onclick="window.print()"
+            class="btn btn-outline-dark">
+
+            <i class="bi bi-printer"></i>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- Purchase Summary -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white py-3">
+
+                <h5 class="mb-0 fw-semibold">
+                    Purchase Information
+                </h5>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+
+                        <small class="text-muted d-block">
+                            Invoice Number
+                        </small>
+
+                        <strong>
+                            {{ purchase.invoice_number }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <small class="text-muted d-block">
+                            Purchase Date
+                        </small>
+
+                        <strong>
+                            {{ purchase.purchase_date|date:"d M Y" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <small class="text-muted d-block">
+                            Created By
+                        </small>
+
+                        <strong>
+                            {{ purchase.created_by }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block mb-1">
+                            Supplier
+                        </small>
+
+                        <strong class="fs-6">
+                            {{ purchase.supplier.name }}
+                        </strong>
+
+                        {% if purchase.supplier.phone %}
+
+                            <div class="text-muted small mt-1">
+
+                                <i class="bi bi-telephone me-1"></i>
+
+                                {{ purchase.supplier.phone }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <small class="text-muted d-block mb-1">
+                            Contact Person
+                        </small>
+
+                        <strong>
+
+                            {% if purchase.supplier.contact_person %}
+                                {{ purchase.supplier.contact_person }}
+                            {% else %}
+                                —
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">
+                    Purchase Total
+                </div>
+
+                <div class="display-6 fw-bold mb-3">
+
+                    ₦{{ purchase.total|floatformat:2 }}
+
+                </div>
+
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span class="text-muted">
+                        Subtotal
+                    </span>
+
+                    <span>
+                        ₦{{ purchase.subtotal|floatformat:2 }}
+                    </span>
+
+                </div>
+
+
+                <div class="d-flex justify-content-between">
+
+                    <span class="text-muted">
+                        Discount
+                    </span>
+
+                    <span class="text-danger">
+                        - ₦{{ purchase.discount|floatformat:2 }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Items -->
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-header bg-white py-3">
+
+        <h5 class="mb-0 fw-semibold">
+
+            <i class="bi bi-box-seam me-2 text-primary"></i>
+
+            Purchase Items
+
+        </h5>
+
+    </div>
+
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th class="ps-4">
+                            #
+                        </th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            SKU
+                        </th>
+
+                        <th class="text-end">
+                            Quantity
+                        </th>
+
+                        <th class="text-end">
+                            Unit Cost
+                        </th>
+
+                        <th class="text-end pe-4">
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in purchase.items.all %}
+
+                    <tr>
+
+                        <td class="ps-4 text-muted">
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="fw-semibold">
+
+                                {{ item.product.name }}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="text-muted">
+
+                                {{ item.product.sku }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td class="text-end">
+
+                            {{ item.quantity|floatformat:2 }}
+
+                        </td>
+
+
+                        <td class="text-end">
+
+                            ₦{{ item.unit_cost|floatformat:2 }}
+
+                        </td>
+
+
+                        <td class="text-end pe-4 fw-semibold">
+
+                            ₦{{ item.total|floatformat:2 }}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="text-center py-5 text-muted">
+
+                            No items have been added.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+
+                <tfoot>
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="text-end fw-semibold">
+
+                            Subtotal
+
+                        </td>
+
+                        <td class="text-end pe-4 fw-semibold">
+
+                            ₦{{ purchase.subtotal|floatformat:2 }}
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="text-end">
+
+                            Discount
+
+                        </td>
+
+                        <td class="text-end pe-4 text-danger">
+
+                            - ₦{{ purchase.discount|floatformat:2 }}
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr class="table-light">
+
+                        <td colspan="5"
+                            class="text-end fw-bold fs-5">
+
+                            Grand Total
+
+                        </td>
+
+                        <td class="text-end pe-4 fw-bold fs-5">
+
+                            ₦{{ purchase.total|floatformat:2 }}
+
+                        </td>
+
+                    </tr>
+
+                </tfoot>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if purchase.note %}
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white">
+
+        <h6 class="mb-0 fw-semibold">
+            Purchase Note
+        </h6>
+
+    </div>
+
+    <div class="card-body">
+
+        <p class="mb-0 text-muted">
+            {{ purchase.note|linebreaksbr }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<style>
+
+@media print {
+
+    .sidebar,
+    .topbar,
+    .btn,
+    nav,
+    form {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

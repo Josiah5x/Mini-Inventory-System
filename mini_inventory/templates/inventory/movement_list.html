@@ -1,0 +1,129 @@
+
+{% extends "base.html" %}
+
+{% block title %}Inventory | MiniStock{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="page-title mb-1">Inventory Movements</h4>
+        <p class="page-subtitle mb-0">
+            Track every stock receipt, issue and adjustment.
+        </p>
+    </div>
+
+    <a href="{% url 'inventory:movement_create' %}"
+       class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i> Record Movement
+    </a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-2">
+            <div class="col-md-7">
+                <input name="q" value="{{ query }}"
+                       class="form-control"
+                       placeholder="Search product, SKU or reference">
+            </div>
+
+            <div class="col-md-3">
+                <select name="type" class="form-select">
+                    <option value="">All Movement Types</option>
+                    {% for value, label in page_obj.paginator.object_list.model.MovementType.choices %}
+                        <option value="{{ value }}"
+                            {% if selected_type == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-dark w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Previous Stock</th>
+                    <th>New Stock</th>
+                    <th>Reference</th>
+                    <th>Recorded By</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for movement in movements %}
+                <tr>
+                    <td>{{ movement.created_at|date:"d M Y, H:i" }}</td>
+                    <td>
+                        <strong>{{ movement.product.name }}</strong>
+                        <div class="small text-muted">
+                            {{ movement.product.sku }}
+                        </div>
+                    </td>
+
+                    <td>
+                        {% if movement.movement_type == "IN" %}
+                            <span class="badge badge-soft-success">Stock In</span>
+                        {% elif movement.movement_type == "OUT" %}
+                            <span class="badge badge-soft-danger">Stock Out</span>
+                        {% else %}
+                            <span class="badge badge-soft-warning">Adjustment</span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ movement.quantity|floatformat:2 }}</td>
+                    <td>{{ movement.previous_stock|floatformat:2 }}</td>
+                    <td>{{ movement.new_stock|floatformat:2 }}</td>
+                    <td>{{ movement.reference|default:"—" }}</td>
+                    <td>{{ movement.created_by.username }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center py-5">
+                        <i class="bi bi-arrow-left-right fs-1 text-muted"></i>
+                        <p class="mt-3 mb-0">No inventory movements found.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+        <small class="text-muted">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </small>
+
+        <div class="d-flex gap-2">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-sm btn-light border"
+                   href="?q={{ query|urlencode }}&type={{ selected_type|urlencode }}&page={{ page_obj.previous_page_number }}">
+                    Previous
+                </a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-sm btn-light border"
+                   href="?q={{ query|urlencode }}&type={{ selected_type|urlencode }}&page={{ page_obj.next_page_number }}">
+                    Next
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

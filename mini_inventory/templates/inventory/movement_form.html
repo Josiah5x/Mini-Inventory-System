@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block title %}Record Stock Movement | MiniStock{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'inventory:movement_list' %}"
+       class="btn btn-light border mb-3">
+        <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+    </a>
+
+    <h4 class="page-title mb-1">Record Stock Movement</h4>
+    <p class="page-subtitle">
+        Receive stock, remove stock, or correct a physical count.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Product</label>
+                        {{ form.product }}
+                        {{ form.product.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Movement Type</label>
+                        {{ form.movement_type }}
+                        {{ form.movement_type.errors }}
+                        <div class="form-text">
+                            For adjustments, enter the actual physical
+                            quantity currently in the store.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Quantity / Physical Count
+                        </label>
+                        {{ form.quantity }}
+                        {{ form.quantity.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Reference</label>
+                        {{ form.reference }}
+                        {{ form.reference.errors }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Note / Reason</label>
+                        {{ form.note }}
+                        {{ form.note.errors }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>
+                        Record Movement
+                    </button>
+
+                    <a href="{% url 'inventory:movement_list' %}"
+                       class="btn btn-light border">
+                        Cancel
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}Products | MiniStock{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <div class="page-title">Products</div>
+        <div class="page-subtitle">
+            Manage your products and stock information.
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a
+            href="{% url 'products:category_list' %}"
+            class="btn btn-light border"
+        >
+            <i class="bi bi-tags me-1"></i>
+            Categories
+        </a>
+
+        <a
+            href="{% url 'products:product_create' %}"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-plus-lg me-1"></i>
+            Add Product
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row g-2">
+
+                <div class="col-md-7">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ query }}"
+                            class="form-control"
+                            placeholder="Search product, SKU or barcode..."
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <select
+                        name="category"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        {% for category in categories %}
+
+                            <option
+                                value="{{ category.id }}"
+                                {% if selected_category == category.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ category.name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <button class="btn btn-dark w-100">
+                        Filter
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header bg-white py-3">
+
+        <div class="d-flex justify-content-between">
+
+            <strong>Product Inventory</strong>
+
+            <span class="text-muted small">
+                {{ products|length }} products
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th>SKU</th>
+                    <th>Category</th>
+                    <th>Cost Price</th>
+                    <th>Selling Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th class="text-end">Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for product in products %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            {% if product.image %}
+
+                                <img
+                                    src="{{ product.image.url }}"
+                                    class="product-image"
+                                >
+
+                            {% else %}
+
+                                <div class="avatar-placeholder">
+                                    <i class="bi bi-box"></i>
+                                </div>
+
+                            {% endif %}
+
+                            <div>
+
+                                <a
+                                    href="{% url 'products:product_detail' product.pk %}"
+                                    class="fw-semibold text-decoration-none text-dark"
+                                >
+                                    {{ product.name }}
+                                </a>
+
+                                <div class="text-muted small">
+                                    {{ product.get_unit_display }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+                        <code>{{ product.sku }}</code>
+                    </td>
+
+
+                    <td>
+                        {{ product.category.name }}
+                    </td>
+
+
+                    <td>
+                        ₦{{ product.cost_price|floatformat:2 }}
+                    </td>
+
+
+                    <td class="fw-semibold">
+                        ₦{{ product.selling_price|floatformat:2 }}
+                    </td>
+
+
+                    <td>
+                        {{ product.stock_quantity|floatformat:2 }}
+                        {{ product.get_unit_display }}
+                    </td>
+
+
+                    <td>
+
+                        {% if not product.is_active %}
+
+                            <span class="badge badge-soft-warning">
+                                Inactive
+                            </span>
+
+                        {% elif product.is_low_stock %}
+
+                            <span class="badge badge-soft-danger">
+                                Low Stock
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge badge-soft-success">
+                                In Stock
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td class="text-end">
+
+                        <div class="dropdown">
+
+                            <button
+                                class="btn btn-sm btn-light"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'products:product_detail' product.pk %}"
+                                    >
+                                        <i class="bi bi-eye me-2"></i>
+                                        View
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'products:product_update' product.pk %}"
+                                    >
+                                        <i class="bi bi-pencil me-2"></i>
+                                        Edit
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="text-center py-5"
+                    >
+
+                        <i
+                            class="bi bi-box-seam fs-1 text-muted"
+                        ></i>
+
+                        <div class="fw-semibold mt-3">
+                            No products found
+                        </div>
+
+                        <div class="text-muted small mb-3">
+                            Start by adding your first product.
+                        </div>
+
+                        <a
+                            href="{% url 'products:product_create' %}"
+                            class="btn btn-primary"
+                        >
+                            Add Product
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

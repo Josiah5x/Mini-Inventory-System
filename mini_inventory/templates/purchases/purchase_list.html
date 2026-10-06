@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block title %}Purchases{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+
+    <div>
+        <h3 class="fw-bold mb-1">Purchases</h3>
+        <p class="text-muted mb-0">
+            Manage supplier purchases and stock receipts.
+        </p>
+    </div>
+
+    <a href="{% url 'purchases:purchase_create' %}"
+       class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>
+        New Purchase
+    </a>
+
+</div>
+
+
+<!-- Filters -->
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="get">
+
+            <div class="row g-3">
+
+                <div class="col-lg-6">
+
+                    <label class="form-label">
+                        Search
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ query }}"
+                            class="form-control"
+                            placeholder="Invoice number or supplier..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-3">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    <select name="status"
+                            class="form-select">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        {% for value, label in status_choices %}
+
+                            <option value="{{ value }}"
+                                {% if selected_status == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-lg-3 d-flex align-items-end">
+
+                    <button class="btn btn-dark w-100">
+                        <i class="bi bi-funnel me-1"></i>
+                        Filter
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Purchases -->
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th class="ps-4">Invoice</th>
+                        <th>Supplier</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end pe-4">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for purchase in purchases %}
+
+                    <tr>
+
+                        <td class="ps-4">
+
+                            <a href="{% url 'purchases:purchase_detail' purchase.pk %}"
+                               class="fw-semibold text-decoration-none">
+
+                                {{ purchase.invoice_number }}
+
+                            </a>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="fw-semibold">
+                                {{ purchase.supplier.name }}
+                            </div>
+
+                            {% if purchase.supplier.phone %}
+                                <small class="text-muted">
+                                    {{ purchase.supplier.phone }}
+                                </small>
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ purchase.purchase_date|date:"d M Y" }}
+                        </td>
+
+
+                        <td>
+
+                            {% if purchase.status == "RECEIVED" %}
+
+                                <span class="badge bg-success-subtle text-success">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Received
+                                </span>
+
+                            {% elif purchase.status == "CANCELLED" %}
+
+                                <span class="badge bg-danger-subtle text-danger">
+                                    Cancelled
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning-subtle text-warning-emphasis">
+                                    <i class="bi bi-clock me-1"></i>
+                                    Draft
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td class="text-end fw-semibold">
+
+                            ₦{{ purchase.total|floatformat:2 }}
+
+                        </td>
+
+
+                        <td class="text-end pe-4">
+
+                            <a href="{% url 'purchases:purchase_detail' purchase.pk %}"
+                               class="btn btn-sm btn-light">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="text-center py-5">
+
+                            <div class="mb-3">
+
+                                <i class="bi bi-cart-x fs-1 text-muted"></i>
+
+                            </div>
+
+                            <h5>No purchases found</h5>
+
+                            <p class="text-muted mb-3">
+                                Start by creating your first purchase.
+                            </p>
+
+                            <a href="{% url 'purchases:purchase_create' %}"
+                               class="btn btn-primary">
+
+                                <i class="bi bi-plus-lg me-1"></i>
+                                New Purchase
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
