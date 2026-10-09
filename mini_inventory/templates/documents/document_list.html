@@ -1,0 +1,119 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ document_label }} | MiniStock{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold mb-1">{{ document_label }}</h3>
+            <p class="text-muted mb-0">Manage your {{ document_label|lower }} documents.</p>
+        </div>
+        {% if document_type == "purchase" %}
+        <a href="{% url 'documents:purchase_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> New Purchase
+        </a>
+        {% else %}
+        <a href="{% url 'documents:sale_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> New Sale
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="row g-2 mb-4">
+                <div class="col-md-7">
+                    <input type="search" name="q" value="{{ query }}"
+                           class="form-control"
+                           placeholder="Search document, customer or supplier">
+                </div>
+                <div class="col-md-3">
+                    <select name="status" class="form-select">
+                        <option value="">All statuses</option>
+                        {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button class="btn btn-outline-primary">Filter</button>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Document No.</th>
+                            <th>Date</th>
+                            <th>{% if document_type == "purchase" %}Supplier{% else %}Customer{% endif %}</th>
+                            <th>Status</th>
+                            <th class="text-end">Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for document in documents %}
+                        <tr>
+                            <td class="fw-semibold">{{ document }}</td>
+                            <td>{{ document.doc_date|date:"d M Y" }}</td>
+                            <td>
+                                {% if document_type == "purchase" %}
+                                    {{ document.supplier.name|default:document.supplier_name|default:"—" }}
+                                {% else %}
+                                    {{ document.customer.name|default:document.customer_name|default:"Walk-in customer" }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if document.status == "COMPLETED" %}
+                                <span class="badge text-bg-success">Completed</span>
+                                {% elif document.status == "CANCELLED" %}
+                                <span class="badge text-bg-danger">Cancelled</span>
+                                {% else %}
+                                <span class="badge text-bg-warning">Draft</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">₦{{ document.grand_total|floatformat:2 }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'documents:document_detail' document.pk %}"
+                                   class="btn btn-sm btn-outline-primary">View</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                No documents found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if page_obj.has_other_pages %}
+            <nav>
+                <ul class="pagination justify-content-end mb-0">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query|urlencode }}&status={{ status }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query|urlencode }}&status={{ status }}&page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
