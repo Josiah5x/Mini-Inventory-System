@@ -32,117 +32,121 @@
 </div>
 
 
-<form method="post">
-    {% csrf_token %}
-
-    <!-- 1. Render Document Header Metadata Fields -->
-    <div class="row">
-        <div class="col-md-3">
-            {{ form.doc_code.label_tag }}
-            {{ form.doc_code }}
-            {{ form.doc_code.errors }}
-        </div>
-        <div class="col-md-3">
-            {{ form.doc_year.label_tag }}
-            {{ form.doc_year }}
-            {{ form.doc_year.errors }}
-        </div>
-        <div class="col-md-3">
-            {{ form.doc_num.label_tag }}
-            {{ form.doc_num }}
-            {{ form.doc_num.errors }}
-        </div>
-        <div class="col-md-3">
-            {{ form.doc_date.label_tag }}
-            {{ form.doc_date }}
-            {{ form.doc_date.errors }}
-        </div>
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 fw-bold">Purchase Document Information</h5>
     </div>
 
-    <!-- 2. Selectively Render Only Supplier Fields (Omit Customer Fields) -->
-    <div class="row mt-3">
-        <div class="col-md-4">
-            {{ form.supplier.label_tag }}
-            {{ form.supplier }}
-            {{ form.supplier.errors }}
-        </div>
-        <div class="col-md-4">
-            {{ form.supplier_name.label_tag }}
-            {{ form.supplier_name }}
-            {{ form.supplier_name.errors }}
-        </div>
-        <div class="col-md-4">
-            {{ form.supplier_invoice.label_tag }}
-            {{ form.supplier_invoice }}
-            {{ form.supplier_invoice.errors }}
-        </div>
-    </div>
+    <div class="card-body p-4">
+        <div class="row g-3">
 
-    <!-- 3. Render Financial and Logistic Details -->
-    <div class="row mt-3">
-        <div class="col-md-4">
-            {{ form.currency.label_tag }}
-            {{ form.currency }}
-            {{ form.currency.errors }}
-        </div>
-        <div class="col-md-4">
-            {{ form.tax.label_tag }}
-            {{ form.tax }}
-            {{ form.tax.errors }}
-        </div>
-        <div class="col-md-4">
-            {{ form.project.label_tag }}
-            {{ form.project }}
-            {{ form.project.errors }}
-        </div>
-    </div>
-
-    <!-- 4. Render Formset Management Data (Crucial for Inline Formsets) -->
-    <h3 class="mt-4">Order Items</h3>
-    {{ formset.management_form }}
-
-    <!-- 5. Loop through formset rows -->
-    <div id="formset-container">
-        {% for inline_form in formset %}
-            <div class="row mt-2 item-row">
-                <!-- Hidden fields like ID and DELETE checkboxes -->
-                {{ inline_form.id }}
-                
-                <div class="col-md-4">
-                    {{ inline_form.product.label_tag }}
-                    {{ inline_form.product }}
-                    {{ inline_form.product.errors }}
-                </div>
-                <div class="col-md-2">
-                    {{ inline_form.product_qty.label_tag }}
-                    {{ inline_form.product_qty }}
-                    {{ inline_form.product_qty.errors }}
-                </div>
-                <div class="col-md-2">
-                    {{ inline_form.product_price.label_tag }}
-                    {{ inline_form.product_price }}
-                    {{ inline_form.product_price.errors }}
-                </div>
-                <div class="col-md-2">
-                    {{ inline_form.percentage_discount.label_tag }}
-                    {{ inline_form.percentage_discount }}
-                    {{ inline_form.percentage_discount.errors }}
-                </div>
-                
-                {% if formset.can_delete %}
-                    <div class="col-md-2 align-self-end">
-                        {{ inline_form.DELETE }} Remove
-                    </div>
-                {% endif %}
+            <!-- Document identification -->
+            <div class="col-md-4">
+                <label for="{{ form.doc_code.id_for_label }}" class="form-label">
+                    Document Code
+                </label>
+                {{ form.doc_code }}
+                {{ form.doc_code.errors }}
             </div>
-        {% endfor %}
+
+            <div class="col-md-4">
+                <label for="{{ form.doc_year.id_for_label }}" class="form-label">
+                    Document Year
+                </label>
+                {{ form.doc_year }}
+                {{ form.doc_year.errors }}
+            </div>
+
+            <div class="col-md-4">
+                <label for="{{ form.doc_num.id_for_label }}" class="form-label">
+                    Document Number
+                </label>
+                {{ form.doc_num }}
+                {{ form.doc_num.errors }}
+            </div>
+
+            <div class="col-md-4">
+                <label for="{{ form.doc_date.id_for_label }}" class="form-label">
+                    Document Date
+                </label>
+                {{ form.doc_date }}
+                {{ form.doc_date.errors }}
+            </div>
+
+            <!-- Supplier information -->
+            <div class="col-md-4">
+                <label for="{{ form.supplier.id_for_label }}" class="form-label">
+                    Supplier
+                </label>
+                {{ form.supplier }}
+                {{ form.supplier.errors }}
+            </div>
+
+            <div class="col-md-4">
+                <label for="{{ form.supplier_name.id_for_label }}" class="form-label">
+                    Supplier Name
+                </label>
+                {{ form.supplier_name }}
+                {{ form.supplier_name.errors }}
+            </div>
+
+            <div class="col-md-4">
+                <label for="{{ form.supplier_invoice.id_for_label }}" class="form-label">
+                    Supplier Invoice Number
+                </label>
+                {{ form.supplier_invoice }}
+                {{ form.supplier_invoice.errors }}
+            </div>
+
+            <!-- Financial information -->
+            <div class="col-md-4">
+                <label for="{{ form.currency.id_for_label }}" class="form-label">
+                    Currency
+                </label>
+                {{ form.currency }}
+                {{ form.currency.errors }}
+            </div>
+
+            <div class="col-md-4">
+                <label for="{{ form.credit_fercility.id_for_label }}" class="form-label">
+                    Credit Facility
+                </label>
+                {{ form.credit_fercility }}
+                {{ form.credit_fercility.errors }}
+            </div>
+
+            <!-- Other information -->
+            <div class="col-md-6">
+                <label for="{{ form.project.id_for_label }}" class="form-label">
+                    Project
+                </label>
+                {{ form.project }}
+                {{ form.project.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ form.tax.id_for_label }}" class="form-label">
+                    Tax Amount
+                </label>
+                {{ form.tax }}
+                {{ form.tax.errors }}
+            </div>
+
+            <div class="col-12">
+                <label for="{{ form.address.id_for_label }}" class="form-label">
+                    Address
+                </label>
+                {{ form.address }}
+                {{ form.address.errors }}
+            </div>
+
+        </div>
     </div>
+</div>
 
-    <button type="submit" class="btn btn-primary mt-4">Save Order</button>
-</form>
-
-
-
+<div>
+    hELOOOO
+</div>
 <form method="POST" enctype="multipart/form-data">
 
     {% csrf_token %}
@@ -158,99 +162,61 @@
                 </div>
 
                 <div class="card-body">
+            <div class="row g-3">
 
-                    {% if form.non_field_errors %}
+            <!-- Document identification -->
+            <div class="col-md-4">
+                <label for="{{ form.doc_code.id_for_label }}" class="form-label">
+                    Doc Code
+                </label>
+                {{ form.doc_code }}
+                {{ form.doc_code.errors }}
+            </div>
 
-                    <div class="alert alert-danger">
-                        {{ form.non_field_errors }}
-                    </div>
+            <div class="col-md-4">
+                <label for="{{ form.doc_year.id_for_label }}" class="form-label">
+                    Doc Year
+                </label>
+                {{ form.doc_year }}
+                {{ form.doc_year.errors }}
+            </div>
 
-                    {% endif %}
+            <div class="col-md-4">
+                <label for="{{ form.doc_num.id_for_label }}" class="form-label">
+                    Doc N0
+                </label>
+                {{ form.doc_num }}
+                {{ form.doc_num.errors }}
+            </div>
 
+            <div class="col-12">
+                <label for="{{ form.doc_date.id_for_label }}" class="form-label">
+                    Doc Date
+                </label>
+                {{ form.doc_date }}
+                {{ form.doc_date.errors }}
+            </div>
 
-                    <div class="row g-3">
+            <!-- Supplier information -->
+            <div class="col-12">
+                <label for="{{ form.supplier.id_for_label }}" class="form-label">
+                    Supplier
+                </label>
+                {{ form.supplier }}
+                {{ form.supplier.errors }}
+            </div>
+   
+            
+              <div class="col-12">
+                <label for="{{ form.address.id_for_label }}" class="form-label">
+                    Address
+                </label>
+                {{ form.address }}
+                {{ form.address.errors }}
+            </div>
 
-                        <div class="col-md-6">
-
-                            <label class="form-label">
-                                Product Name
-                            </label>
-
-                            {{ form.name }}
-
-                            {% for error in form.name.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ error }}
-                            </div>
-                            {% endfor %}
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <label class="form-label">
-                                Category
-                            </label>
-
-                            {{ form.category }}
-
-                            {% for error in form.category.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ error }}
-                            </div>
-                            {% endfor %}
-
-                        </div>
-
-
-                        <div class="col-md-4">
-
-                            <label class="form-label">
-                                SKU
-                            </label>
-
-                            {{ form.sku }}
-
-                        </div>
-
-
-                        <div class="col-md-4">
-
-                            <label class="form-label">
-                                Barcode
-                            </label>
-
-                            {{ form.barcode }}
-
-                        </div>
-
-
-                        <div class="col-md-4">
-
-                            <label class="form-label">
-                                Unit
-                            </label>
-
-                            {{ form.unit }}
-
-                        </div>
-
-
-                        <div class="col-12">
-
-                            <label class="form-label">
-                                Description
-                            </label>
-
-                            {{ form.description }}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+            </div>
+        </div>
             </div>
         </div>
 
@@ -267,18 +233,30 @@
 
                 <div class="card-body">
 
-                    {% if product and product.image %}
+            <div class="col-12">
+                <label for="{{ form.supplier_invoice.id_for_label }}" class="form-label">
+                    Supplier Invoice Number
+                </label>
+                {{ form.supplier_invoice }}
+                {{ form.supplier_invoice.errors }}
+            </div>
 
-                    <img src="{{ product.image.url }}" class="img-fluid rounded mb-3"
-                        style="max-height:220px;width:100%;object-fit:cover;">
+            <!-- Financial information -->
+            <div class="col-12">
+                <label for="{{ form.currency.id_for_label }}" class="form-label">
+                    Currency
+                </label>
+                {{ form.currency }}
+                {{ form.currency.errors }}
+            </div>
 
-                    {% endif %}
-
-                    {{ form.image }}
-
-                    <div class="form-text mt-2">
-                        JPG, PNG or WEBP recommended.
-                    </div>
+            <div class="col-12">
+                <label for="{{ form.credit_fercility.id_for_label }}" class="form-label">
+                    Credit Facility
+                </label>
+                {{ form.credit_fercility }}
+                {{ form.credit_fercility.errors }}
+            </div>
 
                 </div>
 
