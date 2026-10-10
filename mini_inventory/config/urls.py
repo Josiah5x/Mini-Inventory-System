@@ -41,6 +41,8 @@ urlpatterns = [
     # Keep your existing admin and other routes.
     path("customers/", include("customers.urls")),
     path("documents/", include("documents.urls")),
+
+    path("sales/", include("sales.urls")),
 ]
 
 

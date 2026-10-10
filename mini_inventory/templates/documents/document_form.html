@@ -17,138 +17,29 @@
 {% block content %}
 
 <div class="d-flex align-items-center gap-3 mb-4">
-
-    <a href="{% url 'products:product_list' %}" class="btn btn-light border">
-        <i class="bi bi-arrow-left"></i>
-    </a>
-
-    <div>
-        <div class="page-title">{{ title }}</div>
-        <div class="page-subtitle">
-            Add product information and pricing.
-        </div>
+<div class="container-fluid py-4">
+    <div class="mb-4">
+        <a href="{% if document_type == 'purchase' %}{% url 'documents:purchase_list' %}{% else %}{% url 'documents:sale_list' %}{% endif %}"
+           class="text-decoration-none">
+            <i class="bi bi-arrow-left"></i> Back to {{ document_type }}s
+        </a>
+        <h3 class="fw-bold mt-3 mb-1">{{ page_title }}</h3>
+        <p class="text-muted mb-0">Enter the document details and add its items.</p>
     </div>
 
-</div>
+    <form method="post" id="document-form">
+        {% csrf_token %}
 
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
 
-<div class="card shadow-sm border-0 mb-4">
-    <div class="card-header bg-white py-3">
-        <h5 class="mb-0 fw-bold">Purchase Document Information</h5>
-    </div>
+        {% if formset.non_form_errors %}
+        <div class="alert alert-danger">{{ formset.non_form_errors }}</div>
+        {% endif %}
 
-    <div class="card-body p-4">
-        <div class="row g-3">
-
-            <!-- Document identification -->
-            <div class="col-md-4">
-                <label for="{{ form.doc_code.id_for_label }}" class="form-label">
-                    Document Code
-                </label>
-                {{ form.doc_code }}
-                {{ form.doc_code.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.doc_year.id_for_label }}" class="form-label">
-                    Document Year
-                </label>
-                {{ form.doc_year }}
-                {{ form.doc_year.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.doc_num.id_for_label }}" class="form-label">
-                    Document Number
-                </label>
-                {{ form.doc_num }}
-                {{ form.doc_num.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.doc_date.id_for_label }}" class="form-label">
-                    Document Date
-                </label>
-                {{ form.doc_date }}
-                {{ form.doc_date.errors }}
-            </div>
-
-            <!-- Supplier information -->
-            <div class="col-md-4">
-                <label for="{{ form.supplier.id_for_label }}" class="form-label">
-                    Supplier
-                </label>
-                {{ form.supplier }}
-                {{ form.supplier.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.supplier_name.id_for_label }}" class="form-label">
-                    Supplier Name
-                </label>
-                {{ form.supplier_name }}
-                {{ form.supplier_name.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.supplier_invoice.id_for_label }}" class="form-label">
-                    Supplier Invoice Number
-                </label>
-                {{ form.supplier_invoice }}
-                {{ form.supplier_invoice.errors }}
-            </div>
-
-            <!-- Financial information -->
-            <div class="col-md-4">
-                <label for="{{ form.currency.id_for_label }}" class="form-label">
-                    Currency
-                </label>
-                {{ form.currency }}
-                {{ form.currency.errors }}
-            </div>
-
-            <div class="col-md-4">
-                <label for="{{ form.credit_fercility.id_for_label }}" class="form-label">
-                    Credit Facility
-                </label>
-                {{ form.credit_fercility }}
-                {{ form.credit_fercility.errors }}
-            </div>
-
-            <!-- Other information -->
-            <div class="col-md-6">
-                <label for="{{ form.project.id_for_label }}" class="form-label">
-                    Project
-                </label>
-                {{ form.project }}
-                {{ form.project.errors }}
-            </div>
-
-            <div class="col-md-6">
-                <label for="{{ form.tax.id_for_label }}" class="form-label">
-                    Tax Amount
-                </label>
-                {{ form.tax }}
-                {{ form.tax.errors }}
-            </div>
-
-            <div class="col-12">
-                <label for="{{ form.address.id_for_label }}" class="form-label">
-                    Address
-                </label>
-                {{ form.address }}
-                {{ form.address.errors }}
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div>
-    hELOOOO
-</div>
-<form method="POST" enctype="multipart/form-data">
-
+        
+        
     {% csrf_token %}
 
     <div class="row g-4">
@@ -294,56 +185,10 @@
 
 
         </div>
-<!--  -->
 
 
-<div class="container-fluid py-4">
-    <div class="mb-4">
-        <a href="{% if document_type == 'purchase' %}{% url 'documents:purchase_list' %}{% else %}{% url 'documents:sale_list' %}{% endif %}"
-           class="text-decoration-none">
-            <i class="bi bi-arrow-left"></i> Back to {{ document_type }}s
-        </a>
-        <h3 class="fw-bold mt-3 mb-1">{{ page_title }}</h3>
-        <p class="text-muted mb-0">Enter the document details and add its items.</p>
-    </div>
 
-    <form method="post" id="document-form">
-        {% csrf_token %}
-
-        {% if form.non_field_errors %}
-        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-        {% endif %}
-
-        {% if formset.non_form_errors %}
-        <div class="alert alert-danger">{{ formset.non_form_errors }}</div>
-        {% endif %}
-
-        <div class="card shadow-sm document-card mb-4">
-            <div class="card-header border-bottom">
-                <div class="section-title">Document information</div>
-            </div>
-            <div class="card-body p-4">
-                <div class="row g-3">
-                    {% for field in form %}
-                    <div class="{% if field.name == 'address' %}col-12{% elif field.name == 'credit_fercility' or field.name == 'supplier_invoice' %}col-md-6{% else %}col-md-4{% endif %}">
-                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                        {{ field }}
-                        {% for error in field.errors %}
-                        <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="alert alert-light border mt-3 mb-0 small">
-                    {% if document_type == "purchase" %}
-                    Purchase documents increase inventory only when you receive them.
-                    {% else %}
-                    Sales documents reduce inventory only when you complete the sale.
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
+        <!--  -->
         <div class="card shadow-sm document-card mb-4">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                 <div>
@@ -464,6 +309,7 @@
             </div>
         </div>
     </form>
+</div>
 </div>
 {% endblock %}
 
