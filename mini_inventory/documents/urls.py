@@ -36,4 +36,11 @@ urlpatterns = [
         name="complete_document",
     ),
 
+    path(
+        "<int:pk>/invoice/",
+        views.invoice_print,
+        name="invoice_print",
+    ),
+
+
 ]

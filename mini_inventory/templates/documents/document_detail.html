@@ -24,6 +24,14 @@
                class="btn btn-outline-secondary">
                 <i class="bi bi-pencil me-1"></i> Edit
             </a>
+            
+            <a href="{% url 'documents:invoice_print' document.pk %}"
+            target="_blank"
+            class="btn btn-outline-primary">
+                <i class="bi bi-printer me-1"></i>
+                {% if is_purchase %}Print Purchase Document{% else %}Generate Invoice{% endif %}
+            </a>
+
             <form method="post" action="{% url 'documents:complete_document' document.pk %}"
                   onsubmit="return confirm('{% if is_purchase %}Receive this purchase and increase stock?{% else %}Complete this sale and deduct stock?{% endif %}');">
                 {% csrf_token %}

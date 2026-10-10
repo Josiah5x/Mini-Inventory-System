@@ -244,3 +244,39 @@ def complete_document(request, pk):
         else "Sale completed and stock updated.",
     )
     return redirect("documents:document_detail", pk=pk)
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+
+from .models import OrderDocument
+
+
+@login_required
+def invoice_print(request, pk):
+    document = get_object_or_404(
+        OrderDocument.objects.prefetch_related("items__product"),
+        pk=pk,
+    )
+
+    items = document.items.all()
+
+    # Replace these defaults with your actual business information.
+    business = {
+        "name": "YOUR BUSINESS NAME",
+        "address": "Your business address",
+        "phone": "Your phone number",
+        "email": "your@email.com",
+        "tax_number": "",
+    }
+
+    return render(request, "documents/invoice_print.html", {
+        "document": document,
+        "items": items,
+        "business": business,
+        "is_purchase": (
+            document.document_type
+            == OrderDocument.DocumentType.PURCHASE
+        ),
+    })

@@ -1,0 +1,313 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% if is_purchase %}Purchase Document{% else %}Invoice{% endif %}
+        - {{ document }}
+    </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background: #f1f3f8;
+            color: #202534;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        .invoice-paper {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 48px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 35px rgba(20, 30, 60, .08);
+        }
+
+        .brand-name {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -.7px;
+        }
+
+        .invoice-heading {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #6c5ce7;
+        }
+
+        .muted { color: #72798a; }
+        .section-label {
+            color: #72798a;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+
+        .invoice-table thead th {
+            background: #f4f3ff;
+            color: #34304f;
+            border-bottom: 2px solid #6c5ce7;
+            padding: 12px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .invoice-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e9ebf2;
+            vertical-align: top;
+        }
+
+        .totals-box {
+            max-width: 340px;
+            margin-left: auto;
+        }
+
+        .grand-total {
+            background: #f4f3ff;
+            border-radius: 8px;
+            padding: 15px;
+            color: #5140c7;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .invoice-footer {
+            border-top: 1px solid #e5e7ef;
+            margin-top: 35px;
+            padding-top: 18px;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 12mm;
+            }
+
+            body {
+                background: white;
+                font-size: 11px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .no-print { display: none !important; }
+
+            .invoice-paper {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .invoice-table tr,
+            .totals-box,
+            .invoice-footer {
+                break-inside: avoid;
+            }
+
+            thead { display: table-header-group; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container no-print py-3 d-flex justify-content-between align-items-center">
+        <a href="{% url 'documents:document_detail' document.pk %}"
+           class="btn btn-outline-secondary btn-sm">
+            &larr; Back to document
+        </a>
+
+        <button type="button" onclick="window.print()" class="btn btn-primary btn-sm">
+            Print / Save as PDF
+        </button>
+    </div>
+
+    <main class="invoice-paper">
+        <!-- Business header -->
+        <div class="row align-items-start mb-5">
+            <div class="col-7">
+                <div class="brand-name">{{ business.name }}</div>
+                <div class="muted mt-2">{{ business.address }}</div>
+                <div class="muted">Phone: {{ business.phone }}</div>
+                <div class="muted">Email: {{ business.email }}</div>
+
+                {% if business.tax_number %}
+                <div class="muted">Tax ID: {{ business.tax_number }}</div>
+                {% endif %}
+            </div>
+
+            <div class="col-5 text-end">
+                <div class="invoice-heading">
+                    {% if is_purchase %}PURCHASE{% else %}INVOICE{% endif %}
+                </div>
+                <div class="muted mt-2">Document No.</div>
+                <div class="fw-bold fs-5">{{ document }}</div>
+                <div class="mt-2">
+                    <span class="muted">Date:</span>
+                    <strong>{{ document.doc_date|date:"d M Y" }}</strong>
+                </div>
+                <div class="mt-2">
+                    <span class="muted">Status:</span>
+                    <strong>{{ document.get_status_display }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-7">
+                <div class="section-label">
+                    {% if is_purchase %}Supplier Details{% else %}Bill To{% endif %}
+                </div>
+
+                <div class="fw-bold fs-6">
+                    {% if is_purchase %}
+                        {{ document.supplier.name|default:document.supplier_name|default:"—" }}
+                    {% else %}
+                        {{ document.customer.name|default:document.customer_name|default:"Walk-in Customer" }}
+                    {% endif %}
+                </div>
+
+                {% if is_purchase and document.supplier %}
+                    <div>{{ document.supplier.address|default:"" }}</div>
+                    <div>{{ document.supplier.phone|default:"" }}</div>
+                    <div>{{ document.supplier.email|default:"" }}</div>
+                {% elif not is_purchase and document.customer %}
+                    <div>{{ document.customer.address|default:"" }}</div>
+                    <div>{{ document.customer.phone|default:"" }}</div>
+                    <div>{{ document.customer.email|default:"" }}</div>
+                {% else %}
+                    <div>{{ document.address|default:"" }}</div>
+                {% endif %}
+            </div>
+
+            <div class="col-5">
+                <div class="section-label">Document Information</div>
+
+                {% if is_purchase %}
+                <div class="mb-2">
+                    <span class="muted">Supplier Invoice:</span>
+                    {{ document.supplier_invoice|default:"—" }}
+                </div>
+                {% endif %}
+
+                <div class="mb-2">
+                    <span class="muted">Project:</span>
+                    {{ document.project|default:"—" }}
+                </div>
+                <div class="mb-2">
+                    <span class="muted">Currency:</span>
+                    {{ document.currency|default:"NGN" }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Line items -->
+        <div class="table-responsive">
+            <table class="table invoice-table">
+                <thead>
+                    <tr>
+                        <th style="width: 35px;">#</th>
+                        <th>Item Description</th>
+                        <th>Code</th>
+                        <th class="text-end">Qty</th>
+                        <th>Unit</th>
+                        <th class="text-end">Unit Price</th>
+                        <th class="text-end">Discount</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <div class="fw-semibold">{{ item.product_description }}</div>
+                            {% if item.warehouse %}
+                            <small class="muted">Warehouse: {{ item.warehouse }}</small>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.product_code }}</td>
+                        <td class="text-end">{{ item.product_qty|floatformat:3 }}</td>
+                        <td>{{ item.product_unit }}</td>
+                        <td class="text-end">{{ item.product_price|floatformat:2 }}</td>
+                        <td class="text-end">{{ item.discount|floatformat:2 }}</td>
+                        <td class="text-end fw-semibold">{{ item.gross_amount|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            No items on this document.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                {% if document.credit_fercility %}
+                <div class="section-label">Credit Facility</div>
+                <div>{{ document.credit_fercility }}</div>
+                {% endif %}
+
+                {% if document.address %}
+                <div class="section-label mt-3">Address / Notes</div>
+                <div>{{ document.address|linebreaksbr }}</div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                <div class="totals-box">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="muted">Subtotal</span>
+                        <span>{{ document.subtotal|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="muted">Total Discount</span>
+                        <span>{{ document.total_discount|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="muted">Tax</span>
+                        <span>{{ document.tax|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="grand-total d-flex justify-content-between">
+                        <span>GRAND TOTAL</span>
+                        <span>{{ document.currency|default:"NGN" }} {{ document.grand_total|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="invoice-footer row align-items-end">
+            <div class="col-7">
+                <div class="fw-bold">Thank you for your business!</div>
+                <div class="muted mt-1">
+                    Please retain this document for your records.
+                </div>
+            </div>
+            <div class="col-5 text-end">
+                <div class="mb-5">Authorized By</div>
+                <div class="border-top pt-2">Signature / Stamp</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
