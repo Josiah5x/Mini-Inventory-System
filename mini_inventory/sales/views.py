@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
 
@@ -24,6 +24,9 @@ from django.utils import timezone
 from documents.models import OrderDocument
 from documents.forms import OrderItemFormSet
 from products.models import Product
+
+from documents.models import OrderDocument
+from documents import views as document_views
 
 from .forms import SaleDocumentForm
 
@@ -128,6 +131,97 @@ def sale_create(request):
         "today": today,
     },
 )
+
+
+@login_required
+def sale_update(request, pk):
+    sale = get_object_or_404(
+        OrderDocument,
+        pk=pk,
+        document_type=OrderDocument.DocumentType.SALE,
+    )
+
+    if sale.status != OrderDocument.Status.DRAFT:
+        messages.error(request, "Only draft sales can be edited.")
+        return redirect("sales:sale_detail", pk=sale.pk)
+
+    if request.method == "POST":
+        form = SaleDocumentForm(request.POST, instance=sale)
+        formset = OrderItemFormSet(request.POST, instance=sale)
+
+        if form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    updated_sale = form.save(commit=False)
+                    updated_sale.document_type = (
+                        OrderDocument.DocumentType.SALE
+                    )
+
+                    if updated_sale.customer and not updated_sale.customer_name:
+                        updated_sale.customer_name = (
+                            updated_sale.customer
+                        )
+
+                    updated_sale.save()
+
+                    formset.instance = updated_sale
+
+                    # Django deletes items marked with DELETE.
+                    formset.save()
+
+                    # Recalculate invoice totals after saving.
+                    updated_sale.calculate_totals()
+
+                messages.success(
+                    request,
+                    f"Sales invoice {updated_sale} updated successfully.",
+                )
+                return redirect(
+                    "sales:sale_detail",
+                    pk=updated_sale.pk,
+                )
+
+            except Exception as exc:
+                messages.error(
+                    request,
+                    f"Unable to update sale: {exc}",
+                )
+        else:
+            messages.error(
+                request,
+                "Please correct the errors in the form before saving.",
+            )
+
+    else:
+        form = SaleDocumentForm(instance=sale)
+        formset = OrderItemFormSet(instance=sale)
+
+    products = Product.objects.filter(
+        is_active=True
+    ).order_by("name")
+
+    products_data = [
+        {
+            "id": product.pk,
+            "price": str(product.selling_price),
+            "name": product.name,
+        }
+        for product in products
+    ]
+
+    return render(
+        request,
+        "sales/sale_form.html",
+        {
+            "form": form,
+            "formset": formset,
+            "products": products,
+            "products_data": products_data,
+            "today": sale.doc_date,
+            "sale": sale,
+            "is_edit": True,
+        },
+    )
 
 
 @login_required

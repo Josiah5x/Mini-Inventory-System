@@ -10,7 +10,9 @@
 
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
-            <h3 class="fw-bold mb-1">Create Sales Invoice</h3>
+            <h3 class="fw-bold mb-1">
+    {% if is_edit %}Edit Sales Invoice{% else %}Create Sales Invoice{% endif %}
+    </h3>
             <p class="text-muted mb-0">
                 Record a customer sale and add the products sold.
             </p>
@@ -61,11 +63,11 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">
+                        <!-- <label class="form-label">
                             {{ form.customer_name.label }}
                         </label>
                         {{ form.customer_name }}
-                        {{ form.customer_name.errors }}
+                        {{ form.customer_name.errors }} -->
                     </div>
 
                     <div class="col-md-3">
@@ -155,18 +157,20 @@
                                 <td>
                                     <span class="line-total fw-semibold">₦0.00</span>
                                 </td>
+                                
                                 <td>
-                                    {% if item_form.DELETE %}
-                                        <span class="d-none">
-                                            {{ item_form.DELETE }}
-                                        </span>
-                                    {% endif %}
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-danger remove-item"
-                                            title="Remove product">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
+                                {% if item_form.DELETE %}
+                                    <div class="d-none">
+                                        {{ item_form.DELETE }}
+                                    </div>
+                                {% endif %}
+
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-danger remove-item"
+                                        title="Delete item">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -212,7 +216,7 @@
                         <button type="submit"
                                 class="btn btn-primary w-100 mt-4">
                             <i class="bi bi-save me-1"></i>
-                            Save Sales Invoice
+                            {% if is_edit %}Update Sale{% else %}Save Sales Invoice{% endif %}
                         </button>
 
                         <p class="text-muted small mt-3 mb-0">
@@ -363,10 +367,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const removeButton = row.querySelector(".remove-item");
         if (removeButton) {
             removeButton.addEventListener("click", function () {
-                const deleteInput = row.querySelector(
-                    'input[type="checkbox"][name$="-DELETE"]'
-                );
-
+                 const deleteInput = row.querySelector(
+            'input[name$="-DELETE"]'
+        );
                 if (deleteInput) {
                     deleteInput.checked = true;
                     row.style.display = "none";

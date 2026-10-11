@@ -77,6 +77,14 @@
                                    class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-printer"></i>
                                 </a>
+                            
+                            {% if document.status == "DRAFT" %}
+                            <a href="{% url 'sales:sale_update' document.pk %}"
+                            class="btn btn-sm btn-outline-primary"
+                            title="Edit Sale">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            {% endif %}
                             </td>
                         </tr>
                         {% empty %}

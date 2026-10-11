@@ -9,6 +9,8 @@ app_name = "sales"
 urlpatterns = [
     path("", views.sale_list, name="sale_list"),
     path("add/", views.sale_create, name="sale_create"),
+    path("<int:pk>/edit/", views.sale_update, name="sale_update"),
+
     path(
         "<int:pk>/",
         document_views.document_detail,
