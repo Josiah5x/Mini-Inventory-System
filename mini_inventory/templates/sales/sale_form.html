@@ -1,0 +1,397 @@
+
+{% extends "base.html" %}
+
+{% block title %}New Sale | MiniStock{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- pass Json Data -->
+    {{ products_data|json_script:"products-data" }}
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h3 class="fw-bold mb-1">Create Sales Invoice</h3>
+            <p class="text-muted mb-0">
+                Record a customer sale and add the products sold.
+            </p>
+        </div>
+        <a href="{% url 'sales:sale_list' %}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Sales
+        </a>
+    </div>
+
+    {% if form.errors or formset.errors %}
+        <div class="alert alert-danger">
+            Please correct the errors below before saving.
+            {{ form.non_field_errors }}
+            {{ formset.non_form_errors }}
+        </div>
+    {% endif %}
+
+    <form method="post" id="sale-form">
+        {% csrf_token %}
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-body py-3">
+                <h5 class="mb-0">Invoice Information</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Invoice Number</label>
+                        <input class="form-control"
+                               value="Generated automatically"
+                               readonly>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            {{ form.doc_date.label }}
+                        </label>
+                        {{ form.doc_date }}
+                        {{ form.doc_date.errors }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Customer</label>
+                        {{ form.customer }}
+                        {{ form.customer.errors }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            {{ form.customer_name.label }}
+                        </label>
+                        {{ form.customer_name }}
+                        {{ form.customer_name.errors }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Currency</label>
+                        {{ form.currency }}
+                        {{ form.currency.errors }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Payment Terms / Method</label>
+                        {{ form.credit_fercility }}
+                        {{ form.credit_fercility.errors }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Project / Reference</label>
+                        {{ form.project }}
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Tax (₦)</label>
+                        {{ form.tax }}
+                        {{ form.tax.errors }}
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Customer Address</label>
+                        {{ form.address }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-body py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Products Sold</h5>
+                <button type="button" id="add-item"
+                        class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-plus-lg me-1"></i> Add Product
+                </button>
+            </div>
+
+            <div class="card-body p-0">
+                {{ formset.management_form }}
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="min-width: 220px;">Product</th>
+                                <th style="min-width: 130px;">Warehouse</th>
+                                <th style="min-width: 100px;">Quantity</th>
+                                <th style="min-width: 130px;">Unit Price (₦)</th>
+                                <th style="min-width: 110px;">Discount %</th>
+                                <th style="min-width: 140px;">Line Total (₦)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-body">
+                            {% for item_form in formset %}
+                            <tr class="item-row">
+                                {% for hidden in item_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+
+                                <td>
+                                    {{ item_form.product }}
+                                    {{ item_form.product.errors }}
+                                    {{ item_form.non_field_errors }}
+                                </td>
+                                <td>
+                                    {{ item_form.warehouse }}
+                                    {{ item_form.warehouse.errors }}
+                                </td>
+                                <td>
+                                    {{ item_form.product_qty }}
+                                    {{ item_form.product_qty.errors }}
+                                </td>
+                                <td>
+                                    {{ item_form.product_price }}
+                                    {{ item_form.product_price.errors }}
+                                </td>
+                                <td>
+                                    {{ item_form.percentage_discount }}
+                                    {{ item_form.percentage_discount.errors }}
+                                </td>
+                                <td>
+                                    <span class="line-total fw-semibold">₦0.00</span>
+                                </td>
+                                <td>
+                                    {% if item_form.DELETE %}
+                                        <span class="d-none">
+                                            {{ item_form.DELETE }}
+                                        </span>
+                                    {% endif %}
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger remove-item"
+                                            title="Remove product">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-3">
+                    <small class="text-muted">
+                        Select a product to fill its selling price automatically.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-end">
+            <div class="col-md-5 col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Subtotal</span>
+                            <strong id="subtotal">₦0.00</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Discount</span>
+                            <strong id="discount-total">₦0.00</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Tax</span>
+                            <strong id="tax-total">₦0.00</strong>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">Grand Total</span>
+                            <h4 class="fw-bold mb-0" id="grand-total">
+                                ₦0.00
+                            </h4>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100 mt-4">
+                            <i class="bi bi-save me-1"></i>
+                            Save Sales Invoice
+                        </button>
+
+                        <p class="text-muted small mt-3 mb-0">
+                            Saving creates a draft. Stock is deducted only
+                            when the invoice is completed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <template id="empty-item-form">
+        <tr class="item-row">
+            {% for hidden in formset.empty_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <td>{{ formset.empty_form.product }}</td>
+            <td>{{ formset.empty_form.warehouse }}</td>
+            <td>{{ formset.empty_form.product_qty }}</td>
+            <td>{{ formset.empty_form.product_price }}</td>
+            <td>{{ formset.empty_form.percentage_discount }}</td>
+            <td><span class="line-total fw-semibold">₦0.00</span></td>
+            <td>
+                <span class="d-none">{{ formset.empty_form.DELETE }}</span>
+                <button type="button"
+                        class="btn btn-sm btn-outline-danger remove-item">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </template>
+</div>
+
+<style>
+    #sale-form input,
+    #sale-form select,
+    #sale-form textarea {
+        width: 100%;
+    }
+
+    #sale-form .errorlist {
+        color: #dc3545;
+        font-size: .8rem;
+        padding-left: 1rem;
+        margin: .25rem 0 0;
+    }
+
+    .item-row td {
+        padding: .75rem;
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const body = document.getElementById("items-body");
+    const addButton = document.getElementById("add-item");
+    const totalForms = document.getElementById("id_items-TOTAL_FORMS");
+    const template = document.getElementById("empty-item-form");
+    const taxInput = document.getElementById("id_tax");
+
+
+    const productsData = JSON.parse(
+        document.getElementById("products-data").textContent
+    );
+
+    const products = {};
+
+    productsData.forEach(product => {
+        products[product.id] = {
+            price: Number(product.price),
+            name: product.name
+        };
+    });
+
+    function money(value) {
+        return "₦" + value.toLocaleString("en-NG", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function calculateTotals() {
+        let subtotal = 0;
+        let discounts = 0;
+
+        body.querySelectorAll(".item-row").forEach(row => {
+            const deleteInput = row.querySelector(
+                'input[type="checkbox"][name$="-DELETE"]'
+            );
+
+            if (deleteInput && deleteInput.checked) return;
+
+            const product = row.querySelector('select[name$="-product"]');
+            const quantity = row.querySelector('input[name$="-product_qty"]');
+            const price = row.querySelector('input[name$="-product_price"]');
+            const discount = row.querySelector(
+                'input[name$="-percentage_discount"]'
+            );
+
+            if (!quantity || !price || !discount) return;
+
+            const qty = Number(quantity.value) || 0;
+            const unitPrice = Number(price.value) || 0;
+            const percentage = Math.min(
+                100, Math.max(0, Number(discount.value) || 0)
+            );
+
+            const lineSubtotal = qty * unitPrice;
+            const lineDiscount = lineSubtotal * percentage / 100;
+
+            subtotal += lineSubtotal;
+            discounts += lineDiscount;
+
+            const lineLabel = row.querySelector(".line-total");
+            if (lineLabel) {
+                lineLabel.textContent = money(lineSubtotal - lineDiscount);
+            }
+        });
+
+        const tax = Math.max(0, Number(taxInput.value) || 0);
+        document.getElementById("subtotal").textContent = money(subtotal);
+        document.getElementById("discount-total").textContent = money(discounts);
+        document.getElementById("tax-total").textContent = money(tax);
+        document.getElementById("grand-total").textContent =
+            money(Math.max(0, subtotal - discounts + tax));
+    }
+
+    function bindRow(row) {
+        const productSelect = row.querySelector('select[name$="-product"]');
+        const priceInput = row.querySelector('input[name$="-product_price"]');
+
+        if (productSelect && priceInput) {
+            productSelect.addEventListener("change", function () {
+                const product = products[this.value];
+                if (product) {
+                    priceInput.value = product.price.toFixed(2);
+                }
+                calculateTotals();
+            });
+        }
+
+        row.querySelectorAll("input, select").forEach(field => {
+            field.addEventListener("input", calculateTotals);
+            field.addEventListener("change", calculateTotals);
+        });
+
+        const removeButton = row.querySelector(".remove-item");
+        if (removeButton) {
+            removeButton.addEventListener("click", function () {
+                const deleteInput = row.querySelector(
+                    'input[type="checkbox"][name$="-DELETE"]'
+                );
+
+                if (deleteInput) {
+                    deleteInput.checked = true;
+                    row.style.display = "none";
+                } else {
+                    row.remove();
+                }
+
+                calculateTotals();
+            });
+        }
+    }
+
+    addButton.addEventListener("click", function () {
+        const index = Number(totalForms.value);
+        const html = template.innerHTML.replaceAll("__prefix__", index);
+        body.insertAdjacentHTML("beforeend", html);
+        totalForms.value = index + 1;
+
+        bindRow(body.lastElementChild);
+        calculateTotals();
+    });
+
+    body.querySelectorAll(".item-row").forEach(bindRow);
+    taxInput.addEventListener("input", calculateTotals);
+    calculateTotals();
+});
+</script>
+{% endblock %}

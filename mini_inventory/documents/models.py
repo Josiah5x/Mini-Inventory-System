@@ -1,11 +1,12 @@
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Sum
 from django.utils import timezone
+from num2words import num2words
 
 
 from django.db import models
@@ -158,6 +159,31 @@ class OrderDocument(models.Model):
                     "updated_at",
                 ]
             )
+
+    def ngn_to_words(self, amount):
+        amount = Decimal(str(amount or 0)).quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP,
+        )
+
+        naira = int(amount)
+        kobo = int((amount - Decimal(naira)) * 100)
+
+        naira_words = num2words(naira, lang="en").capitalize()
+
+        if kobo > 0:
+            kobo_words = num2words(kobo, lang="en")
+            return (
+                f"{naira_words} Naira and "
+                f"{kobo_words} Kobo Only"
+            )
+
+        return f"{naira_words} Naira Only"
+
+
+    @property
+    def amount_in_words(self):
+        return self.ngn_to_words(self.grand_total)
 
 
 class OrderItem(models.Model):

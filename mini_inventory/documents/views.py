@@ -253,6 +253,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import OrderDocument
 
 
+
 @login_required
 def invoice_print(request, pk):
     document = get_object_or_404(
@@ -264,11 +265,13 @@ def invoice_print(request, pk):
 
     # Replace these defaults with your actual business information.
     business = {
-        "name": "YOUR BUSINESS NAME",
-        "address": "Your business address",
-        "phone": "Your phone number",
-        "email": "your@email.com",
-        "tax_number": "",
+        "name": "GOMAK TECHNICAL VENTURE",
+        "address": "CO-OPERATE HEAD OFFICE:",
+        "address2": "GS1/4 George White Lane",
+        "address3": "Zuba Spare Parts Market",
+        "address4": "07026023234, 08057275306, 08060253960",
+        "address5": "charnie.n2e@yahoo.com",
+        "address6": "Abuja",
     }
 
     return render(request, "documents/invoice_print.html", {
