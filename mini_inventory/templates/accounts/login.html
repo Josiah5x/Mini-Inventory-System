@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Login | MiniStock{% endblock %}
+
+{% block content %}
+<style>
+    .login-wrapper {
+        min-height: 78vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 15px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, .08);
+    }
+
+    .login-logo {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        border-radius: 16px;
+        background: #6d5dfc;
+        color: white;
+        font-size: 27px;
+    }
+
+    .login-card .form-control {
+        padding: 12px 14px;
+        border-radius: 10px;
+    }
+
+    .login-button {
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        background: #6d5dfc;
+        border-color: #6d5dfc;
+    }
+
+    .login-button:hover {
+        background: #5848e8;
+        border-color: #5848e8;
+    }
+
+    .login-subtitle {
+        color: var(--bs-secondary-color);
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <div class="text-center mb-4">
+            <div class="login-logo">
+                <i class="bi bi-box-seam"></i>
+            </div>
+
+            <h3 class="fw-bold mb-2">Welcome to MiniStock</h3>
+
+            <p class="login-subtitle mb-0">
+                Sign in to manage your inventory and sales.
+            </p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_username" class="form-label fw-semibold">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    id="id_username"
+                    class="form-control"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    value="{{ form.username.value|default:'' }}"
+                    required
+                    autofocus
+                >
+
+                {% for error in form.username.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password" class="form-label fw-semibold">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    id="id_password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                {% for error in form.password.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="showPassword"
+                    >
+                    <label class="form-check-label small"
+                           for="showPassword">
+                        Show password
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary login-button w-100 text-white">
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                Sign In
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <small class="login-subtitle">
+                Secure inventory management for your business.
+            </small>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkbox = document.getElementById("showPassword");
+        const password = document.getElementById("id_password");
+
+        checkbox.addEventListener("change", function () {
+            password.type = this.checked ? "text" : "password";
+        });
+    });
+</script>
+{% endblock %}

@@ -270,7 +270,7 @@ def invoice_print(request, pk):
         "address2": "GS1/4 George White Lane",
         "address3": "Zuba Spare Parts Market",
         "address4": "07026023234, 08057275306, 08060253960",
-        "address5": "charnie.n2e@yahoo.com",
+        "address5": "charniel.n2e@yahoo.com",
         "address6": "Abuja",
     }
 

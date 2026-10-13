@@ -1,0 +1,1444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101a27">
+<meta name="description" content="Source heavy machinery, generator sets, forklifts and industrial spare parts from a supplier based in Zuba, Abuja, Nigeria. Request a quotation today.">
+<title>Heavy Machinery & Spare Parts | Zuba, Abuja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+:root {
+    --navy: #101a27;
+    --navy-light: #172638;
+    --orange: #2369f4fb;
+    --orange-dark: #0863d9d0;
+    --white: #ffffff;
+    --muted: #687585;
+    --light: #f5f7fa;
+    --border: #e5eaf0;
+    --green: #16865c;
+    --radius: 16px;
+    --shadow: 0 12px 35px rgba(16,26,39,.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+
+body {
+    font-family: "DM Sans", sans-serif;
+    color: var(--navy);
+    background: var(--white);
+    line-height: 1.7;
+}
+
+h1,h2,h3,h4 {
+    font-family: "Manrope", sans-serif;
+    line-height: 1.2;
+    letter-spacing: -0.7px;
+}
+
+a { color: inherit; text-decoration: none; }
+button,input,select,textarea { font: inherit; }
+button { cursor: pointer; }
+
+.container {
+    width: min(1160px, 91%);
+    margin: auto;
+}
+
+.topbar {
+    background: #0b121c;
+    color: #d8e0e9;
+    font-size: 12px;
+    padding: 9px 0;
+}
+
+.topbar .container,
+.topbar-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.topbar-info { flex-wrap: wrap; }
+.topbar i { color: var(--orange); margin-right: 5px; }
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 78px;
+    gap: 25px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex-shrink: 0;
+}
+
+.brand-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: var(--navy);
+    background: var(--orange);
+    font-size: 25px;
+}
+
+.brand-name {
+    font-family: "Manrope", sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.brand-name small {
+    display: block;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 4px;
+    letter-spacing: .5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nav-links a:hover { color: var(--orange-dark); }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 13px 20px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .2s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-orange {
+    background: var(--orange);
+    color: var(--navy);
+}
+
+.btn-orange:hover { background: #ffc04e; }
+
+.btn-dark {
+    background: var(--navy);
+    color: white;
+}
+
+.btn-outline {
+    border-color: #d9e0e8;
+    background: white;
+    color: var(--navy);
+}
+
+.btn-outline:hover { border-color: var(--orange); }
+
+.btn-green {
+    background: var(--green);
+    color: white;
+}
+
+.mobile-toggle {
+    display: none;
+    border: 0;
+    background: none;
+    font-size: 27px;
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    background: var(--navy);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(11,19,29,.98) 0%,
+      rgba(11,19,29,.91) 48%,
+      rgba(11,19,29,.45) 100%),
+      url("https://images.unsplash.com/photo-1580901368919-7738efb0f87e?auto=format&fit=crop&w=1800&q=85")
+      center/cover;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 430px;
+    height: 430px;
+    border: 1px solid rgba(244,166,35,.15);
+    border-radius: 50%;
+    right: -120px;
+    bottom: -250px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 100px 0 94px;
+    max-width: 750px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    margin-bottom: 24px;
+}
+
+.eyebrow i { color: var(--orange); font-size: 17px; }
+
+.hero h1 {
+    font-size: clamp(37px, 5.1vw, 65px);
+    font-weight: 800;
+    line-height: 1.12;
+    margin-bottom: 24px;
+}
+
+.hero h1 span { color: var(--orange); }
+
+.hero p {
+    max-width: 600px;
+    color: #c9d2dd;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.hero .btn { min-height: 50px; }
+
+.hero .btn-outline {
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.25);
+    color: white;
+}
+
+.hero-note {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 34px;
+    color: #dce4ed;
+    font-size: 12px;
+}
+
+.hero-note i { color: var(--orange); margin-right: 5px; }
+
+/* SHARED SECTIONS */
+
+section { padding: 85px 0; }
+
+.section-heading {
+    max-width: 680px;
+    margin-bottom: 38px;
+}
+
+.section-heading.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.section-tag {
+    display: inline-block;
+    color: var(--orange-dark);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    font-size: clamp(28px, 3.4vw, 41px);
+    margin-bottom: 16px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* CATEGORIES */
+
+.categories { background: var(--light); }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: .25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.product-image {
+    height: 210px;
+    background: #dce3e9;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s;
+}
+
+.product-card:hover .product-image img { transform: scale(1.05); }
+
+.product-body { padding: 23px; }
+
+.product-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #fff3d9;
+    color: #a96b00;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.product-body h3 { font-size: 18px; margin-bottom: 10px; }
+
+.product-body p {
+    color: var(--muted);
+    font-size: 13px;
+    min-height: 66px;
+    margin-bottom: 18px;
+}
+
+.text-link {
+    color: #a76b00;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.text-link i { margin-left: 5px; }
+
+/* WHY US */
+
+.advantage-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 28px;
+}
+
+.advantage {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.advantage-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    background: #fff3d9;
+    color: #9c6500;
+    border-radius: 13px;
+    font-size: 23px;
+    margin-bottom: 20px;
+}
+
+.advantage h3 { font-size: 18px; margin-bottom: 12px; }
+.advantage p { font-size: 13px; color: var(--muted); }
+
+/* PROCESS */
+
+.process {
+    background: var(--navy);
+    color: white;
+}
+
+.process .section-heading p { color: #c1ccd8; }
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+}
+
+.process-item {
+    position: relative;
+    padding: 28px;
+    border: 1px solid #344354;
+    border-radius: var(--radius);
+    background: rgba(255,255,255,.025);
+}
+
+.step-number {
+    color: var(--orange);
+    font-family: "Manrope",sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 17px;
+}
+
+.process-item h3 { font-size: 18px; margin-bottom: 12px; }
+.process-item p { color: #c1ccd8; font-size: 13px; }
+
+/* QUOTE FORM */
+
+.quote-section { background: var(--light); }
+
+.quote-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.quote-info { padding-top: 15px; }
+
+.quote-info h2 {
+    font-size: clamp(30px,3.5vw,42px);
+    margin-bottom: 18px;
+}
+
+.quote-info > p { color: var(--muted); font-size: 14px; }
+
+.quote-benefits {
+    list-style: none;
+    margin-top: 28px;
+}
+
+.quote-benefits li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.quote-benefits i {
+    color: var(--green);
+    font-size: 18px;
+}
+
+.quote-form {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+}
+
+.quote-form h3 { font-size: 23px; margin-bottom: 7px; }
+
+.form-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 16px;
+}
+
+.form-group { margin-bottom: 17px; }
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 13px;
+    background: white;
+    border: 1px solid #dce3eb;
+    border-radius: 7px;
+    outline: none;
+    color: var(--navy);
+    font-size: 13px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--orange-dark);
+    box-shadow: 0 0 0 3px rgba(244,166,35,.12);
+}
+
+.form-group textarea { resize: vertical; min-height: 105px; }
+
+.quote-form .btn { width: 100%; min-height: 49px; }
+
+.form-notice {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 13px;
+    text-align: center;
+}
+
+/* LOGISTICS */
+
+.logistics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 28px;
+    font-size: 13px;
+}
+
+.logistics-table th,
+.logistics-table td {
+    text-align: left;
+    padding: 17px;
+    border-bottom: 1px solid var(--border);
+}
+
+.logistics-table th {
+    background: var(--navy);
+    color: white;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+}
+
+.logistics-table tr:nth-child(even) td { background: #f8fafc; }
+
+.logistics-note {
+    margin-top: 15px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* FAQ */
+
+.faq-list { max-width: 850px; margin: auto; }
+
+details {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--orange-dark); font-size: 20px; }
+details[open] summary::after { content: "−"; }
+details p { color: var(--muted); font-size: 13px; padding-top: 14px; }
+
+/* FINAL CTA */
+
+.final-cta {
+    background: var(--orange);
+    padding: 65px 0;
+}
+
+.final-cta .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+}
+
+.final-cta h2 { font-size: clamp(27px,3.6vw,42px); max-width: 650px; }
+.final-cta p { font-size: 14px; margin-top: 12px; max-width: 600px; }
+.final-cta .btn { background: var(--navy); color: white; flex-shrink: 0; }
+
+/* FOOTER */
+
+footer { background: #0b121c; color: white; padding: 55px 0 22px; }
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-description {
+    color: #aebbc9;
+    font-size: 13px;
+    max-width: 340px;
+    margin-top: 17px;
+}
+
+footer h4 { font-size: 14px; margin-bottom: 18px; }
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    font-size: 12px;
+    color: #bac5d1;
+}
+
+.footer-links a:hover { color: var(--orange); }
+
+.footer-bottom {
+    border-top: 1px solid #263342;
+    padding-top: 20px;
+    color: #aebbc9;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.whatsapp-float {
+    position: fixed;
+    z-index: 999;
+    bottom: 22px;
+    right: 22px;
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    background: #20ba69;
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 7px 24px rgba(0,0,0,.2);
+    font-size: 28px;
+    transition: .2s;
+}
+
+.whatsapp-float:hover { transform: translateY(-4px); }
+
+@media(max-width: 900px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px 5%;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+    }
+
+    .nav-links.open { display: flex; }
+    .mobile-toggle { display: block; }
+    .nav-contact { display: none; }
+
+    .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .quote-layout { grid-template-columns: 1fr; }
+    .advantage-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+    .final-cta .container { align-items: flex-start; flex-direction: column; }
+}
+
+@media(max-width: 560px) {
+    .topbar .container { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .topbar-info { gap: 7px 15px; }
+    .nav-inner { min-height: 70px; }
+    .nav-links { top: 70px; }
+
+    .brand-name { font-size: 14px; }
+    .brand-icon { width: 39px; height: 39px; }
+
+    .hero-content { padding: 70px 0 65px; }
+    .hero h1 { font-size: 38px; }
+    .hero p { font-size: 14px; }
+    .hero-buttons { flex-direction: column; align-items: stretch; }
+    .hero-note { flex-direction: column; align-items: flex-start; gap: 9px; }
+
+    section { padding: 62px 0; }
+    .product-grid { grid-template-columns: 1fr; }
+    .product-image { height: 225px; }
+    .product-body p { min-height: 0; }
+
+    .quote-form { padding: 22px 17px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+
+    .logistics-table { min-width: 570px; }
+    .table-wrap { overflow-x: auto; }
+
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Replace the business name and contact details before publishing. -->
+
+<div class="topbar">
+    <div class="container">
+        <div class="topbar-info">
+            <span><i class="bi bi-geo-alt-fill"></i> Zuba, Abuja, FCT, Nigeria</span>
+            <span><i class="bi bi-truck"></i> Local sourcing and delivery coordination</span>
+        </div>
+        <span><i class="bi bi-clock"></i> Contact us for current availability</span>
+    </div>
+</div>
+
+<header class="navbar">
+    <div class="container nav-inner">
+        <a href="#home" class="brand">
+            <span class="brand-icon"><i class="bi bi-gear-wide-connected"></i></span>
+            <span class="brand-name">
+                GOMAK TECHNICAL VENTURE
+                <small>MACHINERY & SPARE PARTS</small>
+            </span>
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">Why Choose Us</a>
+            <a href="#delivery">Delivery</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <a href="#contact" class="btn btn-orange nav-contact">
+            Request a Quote <i class="bi bi-arrow-up-right"></i>
+        </a>
+
+        <button class="mobile-toggle" id="mobileToggle"
+                aria-label="Toggle navigation" aria-expanded="false">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <div class="eyebrow">
+                <i class="bi bi-geo-alt-fill"></i>
+                Your Abuja Machinery & Parts Sourcing Partner
+            </div>
+
+            <h1>
+                The Right Parts.<br>
+                The Right Equipment.<br>
+                <span>Less Downtime.</span>
+            </h1>
+
+            <p>
+                Looking for heavy machinery, generator sets, forklifts,
+                or industrial spare parts? We help businesses find suitable
+                products, check availability, and request competitive
+                quotations from our base in Zuba, Abuja.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-orange">
+                    <i class="bi bi-chat-square-text"></i>
+                    Get a Quick Quote
+                </a>
+                <a href="#products" class="btn btn-outline">
+                    Explore Our Products
+                    <i class="bi bi-arrow-down"></i>
+                </a>
+            </div>
+
+            <div class="hero-note">
+                <span><i class="bi bi-check-circle"></i> Product sourcing assistance</span>
+                <span><i class="bi bi-check-circle"></i> Clear quotations</span>
+                <span><i class="bi bi-check-circle"></i> Abuja-based business</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="categories" id="products">
+    <div class="container">
+        <div class="section-heading center">
+            <span class="section-tag">What We Supply</span>
+            <h2>Machinery & Parts for Your Business</h2>
+            <p>
+                Tell us what you need. We can confirm available stock or
+                help source the right product based on your requirements.
+            </p>
+        </div>
+
+        <div class="product-grid">
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?auto=format&fit=crop&w=850&q=80"
+                         alt="Heavy industrial equipment"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-truck-front"></i></div>
+                    <h3>Earthmoving Equipment</h3>
+                    <p>
+                        Excavators, bulldozers, wheel loaders, motor graders,
+                        and replacement parts for demanding site operations.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Earthmoving Equipment">
+                        Request Pricing <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=850&q=80"
+                         alt="Power generation infrastructure"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-lightning-charge"></i></div>
+                    <h3>Generator Sets</h3>
+                    <p>
+                        Generator sets, engine components, filters, belts,
+                        alternators, and suitable replacement parts.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Generator Sets">
+                        Get Generator Quote <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=850&q=80"
+                         alt="Warehouse and material handling"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-box-seam"></i></div>
+                    <h3>Forklifts & Handling</h3>
+                    <p>
+                        Forklifts and related parts for warehouses,
+                        distribution centres, and industrial facilities.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Forklifts and Material Handling">
+                        Check Availability <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=850&q=80"
+                         alt="Industrial maintenance and engineering"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-gear"></i></div>
+                    <h3>Industrial Spare Parts</h3>
+                    <p>
+                        Bearings, filters, belts, seals, hydraulic components,
+                        and other industrial maintenance parts.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Industrial Spare Parts">
+                        Find a Part <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=850&q=80"
+                         alt="Automotive components and spare parts"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-tools"></i></div>
+                    <h3>Automotive Spare Parts</h3>
+                    <p>
+                        Parts for commercial vehicles and heavy-duty fleets,
+                        subject to compatibility and availability checks.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Automotive Spare Parts">
+                        Request Parts <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=850&q=80"
+                         alt="Industrial technician inspecting equipment"
+                         loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-icon"><i class="bi bi-search"></i></div>
+                    <h3>Special Sourcing</h3>
+                    <p>
+                        Have a difficult-to-find part? Send the part number,
+                        equipment model, or a photo for a sourcing enquiry.
+                    </p>
+                    <a href="#contact" class="text-link" data-category="Special Sourcing">
+                        Submit Your Requirements <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="about">
+    <div class="container">
+        <div class="section-heading center">
+            <span class="section-tag">The Practical Advantage</span>
+            <h2>A Straightforward Way to Source Equipment</h2>
+            <p>
+                We focus on helping customers identify what they need,
+                understand their options, and confirm the terms before ordering.
+            </p>
+        </div>
+
+        <div class="advantage-grid">
+            <div class="advantage">
+                <div class="advantage-icon"><i class="bi bi-patch-check"></i></div>
+                <h3>Informed Product Selection</h3>
+                <p>
+                    We help check specifications, part references, equipment
+                    models, and supplier information. Product origin and
+                    condition should be confirmed before purchase.
+                </p>
+            </div>
+
+            <div class="advantage">
+                <div class="advantage-icon"><i class="bi bi-receipt"></i></div>
+                <h3>Clear Quotations</h3>
+                <p>
+                    Request a quotation showing the product description,
+                    quantity, price, applicable warranty terms, and
+                    estimated delivery arrangements.
+                </p>
+            </div>
+
+            <div class="advantage">
+                <div class="advantage-icon"><i class="bi bi-geo-alt"></i></div>
+                <h3>Local Point of Contact</h3>
+                <p>
+                    Based in Zuba, Abuja, we provide a local contact for
+                    your enquiries and coordinate sourcing and delivery
+                    according to the agreed order terms.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+    <div class="container">
+        <div class="section-heading center">
+            <span class="section-tag">How It Works</span>
+            <h2>From Enquiry to Quotation</h2>
+            <p>Three simple steps to start your next procurement enquiry.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-item">
+                <div class="step-number">01</div>
+                <h3>Tell Us What You Need</h3>
+                <p>
+                    Send the part number, product description, equipment
+                    make and model, quantity, or a photo of the item.
+                </p>
+            </div>
+
+            <div class="process-item">
+                <div class="step-number">02</div>
+                <h3>Confirm Price & Availability</h3>
+                <p>
+                    We review your request and respond with available
+                    stock or sourcing options, pricing, and applicable terms.
+                </p>
+            </div>
+
+            <div class="process-item">
+                <div class="step-number">03</div>
+                <h3>Agree on Delivery</h3>
+                <p>
+                    Once the quotation is accepted, confirm payment,
+                    collection, dispatch, and the agreed delivery estimate.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DELIVERY -->
+<section id="delivery">
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-tag">Collection & Delivery</span>
+            <h2>Serving Zuba, Abuja & Beyond</h2>
+            <p>
+                Discuss collection or delivery options when requesting
+                your quotation. Availability, freight charges, and transit
+                times depend on the product, destination, and carrier.
+            </p>
+        </div>
+
+        <div class="table-wrap">
+            <table class="logistics-table">
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Delivery Arrangement</th>
+                        <th>What to Confirm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Zuba</strong></td>
+                        <td>Collection or local delivery by arrangement</td>
+                        <td>Stock location and collection time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gwagwalada & Kubwa</strong></td>
+                        <td>Local transport or delivery by arrangement</td>
+                        <td>Delivery charge and schedule</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Other Abuja locations</strong></td>
+                        <td>Local dispatch or suitable transport</td>
+                        <td>Exact address and item size</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Other Nigerian states</strong></td>
+                        <td>Waybill or freight, where available</td>
+                        <td>Carrier, insurance options, cost, and transit estimate</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="logistics-note">
+            Delivery windows and prices are confirmed individually.
+            We do not guarantee a transit time until the arrangements
+            have been checked with the relevant carrier.
+        </p>
+    </div>
+</section>
+
+<!-- QUOTE FORM -->
+<section class="quote-section" id="contact">
+    <div class="container">
+        <div class="quote-layout">
+            <div class="quote-info">
+                <span class="section-tag">Request a Quotation</span>
+                <h2>Tell Us What You Need. We'll Help You Check Your Options.</h2>
+                <p>
+                    Complete the form with your requirements. It will prepare
+                    a WhatsApp enquiry that you can review and send to our
+                    business number.
+                </p>
+
+                <ul class="quote-benefits">
+                    <li><i class="bi bi-check-circle-fill"></i> Request pricing for machinery and spare parts</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Check availability or sourcing options</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Ask about collection and delivery</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Share specifications and part numbers</li>
+                </ul>
+
+                <div style="margin-top:28px;padding:20px;background:#fff;border:1px solid var(--border);border-radius:12px;">
+                    <div style="font-weight:800;margin-bottom:6px;">
+                        <i class="bi bi-geo-alt-fill" style="color:var(--orange-dark)"></i>
+                        Visit or Contact Us
+                    </div>
+                    <p style="font-size:13px;color:var(--muted);">
+                        Location: Zuba, Abuja, FCT, Nigeria<br>
+                        Phone: 07026023234, 08057275306, 08060253960 <br>
+                        Email: charniel_n2e@yahoo.com
+                    </p>
+                </div>
+            </div>
+
+            <form class="quote-form" id="quoteForm">
+                <h3>Get a Quick Quote</h3>
+                <p class="form-subtitle">
+                    Fields marked * are required.
+                </p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerName">Your Name *</label>
+                        <input id="customerName" name="name" required
+                               autocomplete="name" placeholder="Full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input id="companyName" name="company"
+                               autocomplete="organization" placeholder="Company or business">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number *</label>
+                        <input id="customerPhone" name="phone" type="tel"
+                               required autocomplete="tel" placeholder="Your phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Product Category *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select category</option>
+                            <option>Earthmoving Equipment</option>
+                            <option>Generator Sets</option>
+                            <option>Forklifts and Material Handling</option>
+                            <option>Industrial Spare Parts</option>
+                            <option>Automotive Spare Parts</option>
+                            <option>Special Sourcing</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input id="quantity" name="quantity"
+                               placeholder="e.g. 2 units or 5 filters">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destination">Delivery Location *</label>
+                        <input id="destination" name="destination" required
+                               placeholder="e.g. Zuba, Abuja">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="requirements">Product Details *</label>
+                    <textarea id="requirements" name="requirements" required
+                              placeholder="Describe the product, part number, make/model, specifications, or attach details in WhatsApp after opening it."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-orange">
+                    <i class="bi bi-whatsapp"></i>
+                    Continue to WhatsApp
+                </button>
+
+                <p class="form-notice">
+                    Your message will open in WhatsApp for you to review
+                    and send. This demo does not automatically save enquiries.
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section>
+    <div class="container">
+        <div class="section-heading center">
+            <span class="section-tag">Frequently Asked Questions</span>
+            <h2>Before You Place an Order</h2>
+        </div>
+
+        <div class="faq-list">
+            <details>
+                <summary>Do you have all products physically in stock?</summary>
+                <p>
+                    Stock varies by product. Some items may be available
+                    immediately, while others may need to be sourced.
+                    Contact us to confirm availability before making payment.
+                </p>
+            </details>
+
+            <details>
+                <summary>How do I check if a spare part fits my machine?</summary>
+                <p>
+                    Provide the machine or vehicle make, model, serial number
+                    where applicable, and original part number. Photos and
+                    dimensions can also help us check compatibility.
+                </p>
+            </details>
+
+            <details>
+                <summary>Can you deliver outside Abuja?</summary>
+                <p>
+                    Delivery to other states can be discussed subject to
+                    the item's availability, carrier arrangements, freight
+                    cost, and destination.
+                </p>
+            </details>
+
+            <details>
+                <summary>Can I inspect equipment before purchase?</summary>
+                <p>
+                    Ask us about inspection arrangements for the particular
+                    product. Inspection depends on the item's location and
+                    the supplier's conditions.
+                </p>
+            </details>
+
+            <details>
+                <summary>Do you sell genuine OEM and aftermarket parts?</summary>
+                <p>
+                    Product type and origin should be confirmed for each item.
+                    Ask us to specify whether a quotation is for a genuine
+                    OEM part, an aftermarket part, or a compatible alternative.
+                </p>
+            </details>
+
+            <details>
+                <summary>How do I receive a quotation?</summary>
+                <p>
+                    Complete the enquiry form above and continue to WhatsApp.
+                    Review your message and send it to our business number.
+                    We can then respond based on the details you provide.
+                </p>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <div class="container">
+        <div>
+            <h2>Looking for the Right Equipment or Spare Part?</h2>
+            <p>
+                Start with a quotation. Tell us what you need and where
+                you need it delivered. We are based in Zuba, Abuja.
+            </p>
+        </div>
+        <a href="#contact" class="btn">
+            Send Your Enquiry <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <a href="#home" class="brand">
+                    <span class="brand-icon"><i class="bi bi-gear-wide-connected"></i></span>
+                    <span class="brand-name" style="color:white;">
+                        GOMAK TECHNICAL VENTURE
+                        <small style="color:#aebbc9;">MACHINERY & SPARE PARTS</small>
+                    </span>
+                </a>
+                <p class="footer-description">
+                    A machinery and spare parts sourcing business based in
+                    Zuba, Abuja, helping customers enquire about equipment,
+                    replacement parts, and supply options.
+                </p>
+            </div>
+
+            <div>
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#products">Products & Services</a>
+                    <a href="#about">Why Choose Us</a>
+                    <a href="#delivery">Delivery Information</a>
+                    <a href="#contact">Request a Quote</a>
+                </div>
+            </div>
+
+            <div>
+                <h4>Contact Information</h4>
+                <div class="footer-links">
+                    <span><i class="bi bi-geo-alt"></i> Zuba, Abuja, FCT</span>
+                    <a href="#contact"><i class="bi bi-telephone"></i> 07026023234, 08057275306, 08060253960</a>
+                    <a href="#contact"><i class="bi bi-envelope"></i> charniel_n2e@yahoo.com</a>
+                    <span>Serving customers in Abuja and beyond, subject to supply and delivery arrangements.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; <span id="currentYear"></span> GOMAK TECHNICAL VENTURE. All rights reserved.</span>
+            <span>Based in Zuba, Abuja, Nigeria.</span>
+        </div>
+    </div>
+</footer>
+
+<a href="#" class="whatsapp-float" id="whatsappFloat"
+   aria-label="Contact us on WhatsApp" title="Contact us on WhatsApp">
+    <i class="bi bi-whatsapp"></i>
+</a>
+
+<script>
+/*
+  IMPORTANT:
+  Replace this with your real WhatsApp number in international format.
+  For a Nigerian number, use 234 followed by the number without its first 0.
+  Example format: 2348012345678
+*/
+const WHATSAPP_NUMBER = "2348060995446";
+
+function openWhatsApp(message) {
+    if (!/^234\d{10}$/.test(WHATSAPP_NUMBER)) {
+        alert(
+            "Please configure your real WhatsApp number in the page's JavaScript before using this feature."
+        );
+        return;
+    }
+
+    const url =
+        "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+    window.open(url, "_blank", "noopener,noreferrer");
+}
+
+// Mobile navigation
+const mobileToggle = document.getElementById("mobileToggle");
+const navLinks = document.getElementById("navLinks");
+
+mobileToggle.addEventListener("click", function () {
+    const isOpen = navLinks.classList.toggle("open");
+    mobileToggle.setAttribute("aria-expanded", String(isOpen));
+    mobileToggle.innerHTML = isOpen
+        ? '<i class="bi bi-x-lg"></i>'
+        : '<i class="bi bi-list"></i>';
+});
+
+navLinks.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+        navLinks.classList.remove("open");
+        mobileToggle.setAttribute("aria-expanded", "false");
+        mobileToggle.innerHTML = '<i class="bi bi-list"></i>';
+    });
+});
+
+// Product cards preselect the requested category
+document.querySelectorAll("[data-category]").forEach(function (link) {
+    link.addEventListener("click", function () {
+        const category = link.dataset.category;
+        const select = document.getElementById("category");
+
+        for (const option of select.options) {
+            if (option.text === category) {
+                select.value = category;
+                break;
+            }
+        }
+    });
+});
+
+// Quote form creates a prefilled WhatsApp message
+document.getElementById("quoteForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!this.reportValidity()) return;
+
+    const data = new FormData(this);
+
+    const message = [
+        "MACHINERY & SPARE PARTS ENQUIRY",
+        "",
+        "Name: " + data.get("name"),
+        "Company: " + (data.get("company") || "Not provided"),
+        "Phone: " + data.get("phone"),
+        "Category: " + data.get("category"),
+        "Quantity: " + (data.get("quantity") || "Not specified"),
+        "Delivery location: " + data.get("destination"),
+        "",
+        "Product requirements:",
+        data.get("requirements"),
+        "",
+        "Please confirm availability, pricing, and delivery options.",
+        "I am enquiring with your business based in Zuba, Abuja."
+    ].join("\n");
+
+    openWhatsApp(message);
+});
+
+// Floating WhatsApp contact button
+document.getElementById("whatsappFloat").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    openWhatsApp(
+        "Hello, I would like to enquire about your heavy machinery and spare parts."
+    );
+});
+
+// Automatic footer year
+document.getElementById("currentYear").textContent =
+    new Date().getFullYear();
+</script>
+
+</body>
+</html>
