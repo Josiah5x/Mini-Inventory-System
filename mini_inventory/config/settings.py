@@ -87,12 +87,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# settings.py
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'ylbqtvgUqzcmCjfHCXmzuIMntCLxfaXP',
+        'HOST': 'iriguchi.proxy.rlwy.net', # Or your remote host IP / RDS endpoint
+        'PORT': '13305',      # Default PostgreSQL port
     }
 }
+# postgresql://postgres:ylbqtvgUqzcmCjfHCXmzuIMntCLxfaXP@iriguchi.proxy.rlwy.net:13305/railway
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
