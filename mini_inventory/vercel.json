@@ -3,7 +3,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "your_project/wsgi.py",
+      "src": "mini_inventory/wsgi.py",
       "use": "@vercel/python",
       "config": {"maxLambdaSize": "15mb", "runtime": "python3.14.3"}
     },
@@ -18,7 +18,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "your_project/wsgi.py"
+      "dest": "mini_inventory/wsgi.py"
     },
     {
       "src": "/static/(.*)",
