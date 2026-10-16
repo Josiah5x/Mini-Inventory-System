@@ -1,11 +1,9 @@
-# 1. Create a virtual environment using the active Python 3.14 runtime
-python3 -m venv venv
+#!/bin/bash
 
-# 2. Activate the virtual environment
-source venv/bin/activate
+# 1. Force upgrade pip and install dependencies safely
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
 
-# 3. Install your dependencies safely inside the virtual environment
-pip install -r requirements.txt
-
-# 4. Run your Django collectstatic command using the environment's python
-python3 manage.py collectstatic --noinput
+# 2. Run Django operations
+python3 mini_inventory/manage.py collectstatic --noinput --clear
+python3 mini_inventory/manage.py migrate

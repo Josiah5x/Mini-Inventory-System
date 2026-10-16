@@ -153,13 +153,13 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "dashboard:dashboard_home"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
-STATIC_URL = 'static/'
 
 
-# STATICFILES_DIRS = [BASE_DIR/'static']
-# STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+# 2. Configure paths for static asset handling
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 3. Enable Whitenoise compression for blazing fast assets
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
