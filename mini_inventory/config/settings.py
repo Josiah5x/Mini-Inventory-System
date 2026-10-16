@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-fg7&i3lb&f033q(!e@%l7(h)%o7#h_#%*!91s!kodr)z4g!=b_
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app' '.now.sh']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
 
 
 
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "django.contrib.humanize",
+    "whitenoise.runserver_nostatic",
+
 
     # Local apps
     "accounts",
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoice.middleware.WhiteNoise.Middleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
