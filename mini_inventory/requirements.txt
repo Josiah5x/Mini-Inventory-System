@@ -11,3 +11,4 @@ python-dotenv==1.2.2
 asgiref==3.11.0
 sqlparse==0.5.4
 tzdata==2025.2
+num2words==0.5.14
