@@ -1,5 +1,7 @@
 #!/bin/bash
 # Install dependencies
+pip install num2words
+
 python3 -m pip install -r requirements.txt
 
 # Run migrations (optional but recommended)
