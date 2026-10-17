@@ -1,9 +1,12 @@
+#!/bin/bash
 
-# 1. Install requirements with the break-system-packages flag to bypass PEP 668
+# 1. Install corrected requirements configuration
 pip install -r requirements.txt --break-system-packages
 
-# 2. Navigate into the main repository directory where manage.py is actually located
-cd mini_inventory
+# 2. Check if a nested mini_inventory folder exists, and step inside if it does
+if [ -d "mini_inventory" ]; then
+    cd mini_inventory
+fi
 
-# 3. Verify files match and run collectstatic
+# 3. Collect static files safely
 python3 manage.py collectstatic --no-input
