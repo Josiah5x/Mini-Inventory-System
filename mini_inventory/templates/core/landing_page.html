@@ -731,10 +731,159 @@ footer h4 { font-size: 14px; margin-bottom: 18px; }
     .footer-grid { grid-template-columns: 1fr; gap: 30px; }
     .footer-bottom { flex-direction: column; }
 }
+
+
+
+
+/* =========================
+   PAGE LOADER
+========================= */
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a1930;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.page-loader.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    width: min(320px, 85%);
+    text-align: center;
+    color: #ffffff;
+    animation: loaderAppear 0.7s ease both;
+}
+
+.loader-logo {
+    width: 78px;
+    height: 78px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 22px;
+    border-radius: 20px;
+    background: #ffca28;
+    color: #0a1930;
+    font-size: 38px;
+    box-shadow: 0 0 40px #ffca2830;
+}
+
+.loader-logo i {
+    animation: gearSpin 3s linear infinite;
+}
+
+.loader-content h2 {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.loader-content > p {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #b7c7dc;
+    margin-bottom: 35px;
+}
+
+.loader-track {
+    height: 4px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #ffffff20;
+    margin-bottom: 15px;
+}
+
+.loader-progress {
+    height: 100%;
+    width: 40%;
+    border-radius: inherit;
+    background: #ffca28;
+    animation: loadingProgress 1.5s ease-in-out infinite;
+}
+
+.loader-message {
+    color: #aabbd2;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+@keyframes gearSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loadingProgress {
+    0% {
+        transform: translateX(-110%);
+    }
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+@keyframes loaderAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-logo i,
+    .loader-progress,
+    .loader-content {
+        animation: none;
+    }
+
+    .page-loader {
+        transition: none;
+    }
+}
+
 </style>
 </head>
 
 <body>
+
+    <!-- PAGE LOADER -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fa-solid fa-gears"></i>
+            </div>
+
+            <h2>MINI STOCK</h2>
+            <p>MACHINERY & SPARE PARTS</p>
+
+            <div class="loader-track">
+                <div class="loader-progress"></div>
+            </div>
+
+            <span class="loader-message">
+                Preparing your experience...
+            </span>
+        </div>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
 
 <!-- Replace the business name and contact details before publishing. -->
 
@@ -1439,6 +1588,38 @@ document.getElementById("whatsappFloat").addEventListener("click", function (eve
 document.getElementById("currentYear").textContent =
     new Date().getFullYear();
 </script>
+
+
+    <script>
+        /* PAGE LOADER */
+        (function () {
+            const loader = document.getElementById("pageLoader");
+
+            if (!loader) return;
+
+            function hideLoader() {
+                loader.classList.add("loader-hidden");
+
+                setTimeout(function () {
+                    loader.remove();
+                }, 700);
+            }
+
+            if (document.readyState === "complete") {
+                hideLoader();
+            } else {
+                window.addEventListener("load", hideLoader, {
+                    once: true
+                });
+            }
+
+            setTimeout(hideLoader, 5000);
+        })();
+
+        // Your existing mobile navigation code stays here.
+        // Your existing FAQ code stays here.
+        // Your existing quote form code stays here.
+    </script>
 
 </body>
 </html>

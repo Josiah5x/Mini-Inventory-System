@@ -21,37 +21,7 @@
         rel="stylesheet"
     >
 
-    <script>
-    
-/* PAGE LOADER */
-(function () {
-    const loader = document.getElementById("pageLoader");
-
-    if (!loader) return;
-
-    function hideLoader() {
-        loader.classList.add("loader-hidden");
-
-        // Remove from the document after the fade-out.
-        setTimeout(function () {
-            loader.remove();
-        }, 700);
-    }
-
-    // Hide after the page and its assets have loaded.
-    if (document.readyState === "complete") {
-        hideLoader();
-    } else {
-        window.addEventListener("load", hideLoader, { once: true });
-    }
-
-    // Fallback in case an external image or asset takes too long.
-    setTimeout(hideLoader, 5000);
-})();
-
-</script>
-
-
+  
     <style>
 
         :root {
@@ -427,23 +397,6 @@
 
 <body>
 
-    <!-- PAGE LOADER -->
-<div id="pageLoader" class="page-loader">
-    <div class="loader-content">
-        <div class="loader-logo">
-            <i class="fa-solid fa-gears"></i>
-        </div>
-
-        <h2>MINI STOCK</h2>
-        <p>MACHINERY & SPARE PARTS</p>
-
-        <div class="loader-track">
-            <div class="loader-progress"></div>
-        </div>
-
-        <span class="loader-message">Preparing your experience...</span>
-    </div>
-</div>
 
 <aside class="sidebar">
 
