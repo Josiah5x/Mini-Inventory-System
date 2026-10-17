@@ -9,4 +9,4 @@ if [ -d "mini_inventory" ]; then
 fi
 
 # 3. Collect static files safely
-python3 manage.py collectstatic
+python3 mini_inventory/manage.py collectstatic --noinput
