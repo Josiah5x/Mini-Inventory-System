@@ -17,14 +17,14 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/static/(.*)",
-      "dest": "mini_inventory/staticfiles/static/$1"
+      "source": "/static/(.*)",
+      "destination": "mini_inventory/staticfiles/static/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "mini_inventory/config/wsgi.py"
+      "source": "/(.*)",
+      "destination": "mini_inventory/config/wsgi.py"
     }
   ]
 }
