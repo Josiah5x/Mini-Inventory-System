@@ -1,8 +1,12 @@
 #!/bin/bash
 
-# 1. Install packages
+# 1. Install corrected requirements configuration
 pip install -r requirements.txt --break-system-packages
 
-# 2. Tell Django to output static assets directly to the root folder 
-# bypassing internal paths during compilation
-python3 mini_inventory/manage.py collectstatic --no-input --settings=mini_inventory.settings
+# 2. Check if a nested mini_inventory folder exists, and step inside if it does
+if [ -d "mini_inventory" ]; then
+    cd mini_inventory
+fi
+
+# 3. Collect static files safely
+python3 manage.py collectstatic --no-input
