@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "mini_inventory/wsgi.py",
+      "src": "mini_inventory/mini_inventory/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
-        "runtime": "python3.14"
+        "runtime": "python3.12"
       }
     },
     {
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "staticfiles"
+        "distDir": "mini_inventory/staticfiles"
       }
     }
   ],
@@ -24,9 +24,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "mini_inventory/wsgi.py"
+      "dest": "mini_inventory/mini_inventory/wsgi.py"
     }
   ]
 }
-
-
