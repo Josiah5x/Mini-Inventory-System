@@ -2,29 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "mini_inventory/config/wsgi.py",
+      "src": "config/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.14"
-      }
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "mini_inventory/staticfiles"
+        "maxLambdaSize": "15mb"
       }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/static/(.*)",
-      "destination": "mini_inventory/staticfiles/static/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "mini_inventory/config/wsgi.py"
+      "src": "/(.*)",
+      "dest": "config/wsgi.py"
     }
   ]
 }

@@ -155,18 +155,19 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 
 
-# 2. Configure paths for static asset handling
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_ROOT = os.path.join(BASE_DIR, "mini_inventory/staticfiles")
-# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # 3. Enable Whitenoise compression for blazing fast assets
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# Required for POST requests from the custom domain (CSRF protection)
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+]
 
 AUTH_USER_MODEL = "accounts.User"
 
