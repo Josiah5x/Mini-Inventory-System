@@ -157,7 +157,9 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 # 2. Configure paths for static asset handling
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
+# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 
 # 3. Enable Whitenoise compression for blazing fast assets
 STORAGES = {
